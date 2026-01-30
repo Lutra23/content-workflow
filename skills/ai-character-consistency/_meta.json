@@ -1,0 +1,15 @@
+{
+  "name": "ai-character-consistency",
+  "description": "Character consistency maintenance for AI anime production using IP-Adapter, InstantID, and LoRA",
+  "metadata": {
+    "clawdbot": {
+      "emoji": "👤",
+      "requires": {
+        "bins": ["python3"],
+        "env": ["CUDA_VISIBLE_DEVICES"],
+        "optionalEnv": ["HF_TOKEN", "DIFFUSERS_CACHE"]
+      },
+      "primaryEnv": "CUDA_VISIBLE_DEVICES"
+    }
+  }
+}

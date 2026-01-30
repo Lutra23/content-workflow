@@ -1,0 +1,63 @@
+# AI Image Generator - Provider Configuration
+# This file configures API endpoints and provider priorities
+
+providers:
+  # Primary provider (used by default)
+  primary: stable-diffusion
+  
+  # Fallback order when primary fails
+  fallback_order:
+    - stable-diffusion
+    - flux
+    - dall-e
+    - midjourney
+    - kling
+
+  # Provider-specific configurations
+  stable-diffusion:
+    api_url: http://localhost:7860
+    model: anime-full-res
+    quality: high
+    enabled: true
+    # Rate limiting
+    rpm: 100
+    images_per_request: 4
+
+  dall-e:
+    api_url: https://api.openai.com/v1
+    model: dall-e-3
+    quality: standard
+    enabled: ${OPENAI_API_KEY:?not set}
+    rpm: 50
+    images_per_request: 1
+
+  flux:
+    api_url: https://api.replicate.com/v1
+    model: flux-anime
+    guidance: 7.5
+    enabled: ${REPLICATE_API_TOKEN:?not set}
+    rpm: 30
+    images_per_request: 1
+
+  midjourney:
+    api_url: https://discord.com/api/v10
+    enabled: ${MIDJOURNEY_DISCORD_TOKEN:?not set}
+    # Requires Discord bot setup
+
+  kling:
+    api_url: https://api.klingai.com/v1
+    enabled: ${KLING_API_KEY:?not set}
+    rpm: 60
+
+# Output settings
+output:
+  format: png
+  quality: high
+  directory: ./generated
+
+# Generation defaults
+defaults:
+  width: 1024
+  height: 1024
+  steps: 30
+  guidance_scale: 7.5

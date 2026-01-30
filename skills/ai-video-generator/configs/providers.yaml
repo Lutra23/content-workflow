@@ -1,0 +1,45 @@
+# AI Video Generator - Provider Configuration
+providers:
+  primary: kling
+  fallback_order:
+    - kling
+    - svd
+    - runway
+  
+  kling:
+    model: kling-v1.5
+    max_duration: 10
+    aspect_ratios:
+      - 16:9
+      - 9:16
+      - 1:1
+    motion_presets:
+      - none
+      - slight
+      - moderate
+      - strong
+  
+  svd:
+    api_url: http://localhost:7860
+    model: stable-video-diffusion-img2vid
+    fps: 24
+    frames: 25
+    motion_bucket_id: 45
+  
+  runway:
+    base_url: https://api.runwayml.com/v1
+    model: gen-2
+    max_duration: 10
+
+rate_limits:
+  kling:
+    requests_per_minute: 10
+  svd:
+    requests_per_minute: 60
+  runway:
+    requests_per_minute: 5
+
+output:
+  default_format: mp4
+  default_fps: 24
+  codec: libx264

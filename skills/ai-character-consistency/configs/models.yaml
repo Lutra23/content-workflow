@@ -1,0 +1,43 @@
+models:
+  base:
+    name: "runwayml/stable-diffusion-v1-5"
+    path: "/models/sd-v1-5"
+    
+  instantid:
+    name: "InstantID/InstantID"
+    path: "/models/instantid"
+    face_encoder: "antelopev2"
+    
+  ip_adapter:
+    name: "h94/IP-Adapter"
+    path: "/models/ip-adapter"
+    scales:
+      style: 0.8
+      structure: 1.0
+
+controlnet:
+  openpose:
+    name: "lllyasviel/ControlNet-v1-1"
+    path: "/models/controlnet/openpose"
+    
+  canny:
+    name: "lllyasviel/ControlNet-v1-1"
+    path: "/models/controlnet/canny"
+    
+  depth:
+    name: "lllyasviel/ControlNet-v1-1"
+    path: "/models/controlnet/depth"
+    
+  normal:
+    name: "lllyasviel/ControlNet-v1-1"
+    path: "/models/controlnet/normal"
+
+lora:
+  output_dir: "/models/lora"
+  max_rank: 16
+  alpha: 1.0
+
+inference:
+  guidance_scale: 7.5
+  num_inference_steps: 30
+  scheduler: "DDIM"

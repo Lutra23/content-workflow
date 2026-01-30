@@ -1,0 +1,72 @@
+formats:
+  srt:
+    extension: .srt
+    time_format: "HH:MM:SS,mmm"
+    encoding: utf-8
+    
+  vtt:
+    extension: .vtt
+    time_format: "HH:MM:SS.mmm"
+    header: "WEBVTT"
+    encoding: utf-8
+    
+  ass:
+    extension: .ass
+    header: |
+      [Script Info]
+      ScriptType: v4.00+
+      PlayResX: 1920
+      PlayResY: 1080
+    encoding: utf-8
+
+whisper_models:
+  tiny:
+    params: 39M
+    speed: fastest
+    vramb: 1GB
+    
+  base:
+    params: 74M
+    speed: very_fast
+    vramb: 1GB
+    
+  small:
+    params: 244M
+    speed: fast
+    vramb: 2GB
+    
+  medium:
+    params: 769M
+    speed: medium
+    vramb: 5GB
+    
+  large:
+    params: 1550M
+    speed: slow
+    vramb: 10GB
+
+subtitle_styles:
+  default:
+    font: "SimHei"
+    size: 24
+    color: "&H00FFFFFF"
+    outline: 2
+    
+  anime:
+    font: "FZMiaoWu"
+    size: 28
+    color: "&H00FFFFFF"
+    outline: 3
+    shadow: 1
+    
+  bottom:
+    font: "SimHei"
+    size: 24
+    color: "&H00FFFFFF"
+    outline: 2
+    alignment: 2
+
+burning:
+  ffmpeg_path: "ffmpeg"
+  libx264_preset: "medium"
+  crf: 23

@@ -1,0 +1,198 @@
+#!/usr/bin/env python3
+"""
+Quick Capture (qc) - Capture ideas, tasks, and thoughts instantly
+
+Usage:
+    qc "buy milk"              # Quick task (default)
+    qc "great idea #idea"      # Mark as idea
+    qc "bug found #bug"        # Mark as bug
+    qc -l                      # List all captures
+    qc -d "id"                 # Delete a capture
+    qc --clear                 # Clear all
+    qc --export                # Export to memory
+"""
+
+import os
+import sys
+import json
+import uuid
+from datetime import datetime
+from pathlib import Path
+
+CACHE_DIR = Path.home() / ".clawd" / "qc"
+CACHE_FILE = CACHE_DIR / "captures.json"
+
+def init_cache():
+    """Initialize cache directory and file."""
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    if not CACHE_FILE.exists():
+        CACHE_FILE.write_text("[]")
+
+def load_captures():
+    """Load all captures."""
+    init_cache()
+    try:
+        return json.loads(CACHE_FILE.read_text())
+    except:
+        return []
+
+def save_captures(captures):
+    """Save all captures."""
+    CACHE_FILE.write_text(json.dumps(captures, indent=2, ensure_ascii=False))
+
+def add_capture(text, category="task"):
+    """Add a new capture."""
+    captures = load_captures()
+    
+    # Auto-detect category from tags
+    if "#idea" in text:
+        category = "idea"
+        text = text.replace("#idea", "").strip()
+    elif "#bug" in text:
+        category = "bug"
+        text = text.replace("#bug", "").strip()
+    elif "#todo" in text:
+        category = "todo"
+        text = text.replace("#todo", "").strip()
+    
+    capture = {
+        "id": str(uuid.uuid4())[:8],
+        "text": text,
+        "category": category,
+        "created": datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "done": False
+    }
+    
+    captures.insert(0, capture)  # Add to front
+    save_captures(captures)
+    
+    icon = {"task": "📝", "idea": "💡", "bug": "🐛", "todo": "✅"}.get(category, "📝")
+    print(f"{icon} Captured [{category}]: {text}")
+
+def list_captures():
+    """List all captures."""
+    captures = load_captures()
+    
+    if not captures:
+        print("No captures yet. Use `qc \"your thought\"` to add!")
+        return
+    
+    # Group by category
+    by_cat = {"task": [], "idea": [], "bug": [], "todo": []}
+    for c in captures:
+        by_cat.setdefault(c["category"], []).append(c)
+    
+    print("=" * 50)
+    print("📦 Quick Capture Box")
+    print("=" * 50)
+    
+    total = len(captures)
+    done = sum(1 for c in captures if c.get("done"))
+    print(f"Total: {total} | Done: {done} | Active: {total - done}\n")
+    
+    for cat, items in by_cat.items():
+        if items:
+            icon = {"task": "📝", "idea": "💡", "bug": "🐛", "todo": "✅"}.get(cat, "📝")
+            print(f"{icon} {cat.upper()} ({len(items)})")
+            for item in items[:10]:  # Show max 10 per category
+                status = "✓" if item.get("done") else " "
+                print(f"  [{status}] [{item['id']}] {item['text']}")
+            print()
+
+def delete_capture(cat_id):
+    """Delete a capture by ID."""
+    captures = load_captures()
+    captures = [c for c in captures if c["id"] != cat_id]
+    save_captures(captures)
+    print(f"✓ Deleted {cat_id}")
+
+def toggle_done(cat_id):
+    """Toggle done status."""
+    captures = load_captures()
+    for c in captures:
+        if c["id"] == cat_id:
+            c["done"] = not c["done"]
+            save_captures(captures)
+            status = "done" if c["done"] else "undone"
+            print(f"✓ Marked {cat_id} as {status}")
+            return
+    print(f"✗ ID {cat_id} not found")
+
+def export_to_memory():
+    """Export all to memory file."""
+    from qn import get_today_file, MEMORY_DIR
+    
+    captures = load_captures()
+    if not captures:
+        print("Nothing to export")
+        return
+    
+    file_path = get_today_file()
+    timestamp = datetime.now().strftime("%H:%M:%S")
+    
+    lines = [f"\n## {timestamp} - Quick Capture Export"]
+    for c in captures:
+        icon = {"task": "📝", "idea": "💡", "bug": "🐛", "todo": "✅"}.get(c["category"], "📝")
+        lines.append(f"{icon} [{c['category']}] {c['text']}")
+    
+    content = "\n".join(lines) + "\n"
+    
+    with open(file_path, "a", encoding="utf-8") as f:
+        f.write(content)
+    
+    # Clear captures after export
+    save_captures([])
+    print(f"✓ Exported {len(captures)} items to memory and cleared")
+
+def clear_all():
+    """Clear all captures."""
+    save_captures([])
+    print("✓ Cleared all captures")
+
+def main():
+    if len(sys.argv) < 2:
+        print(__doc__)
+        sys.exit(1)
+    
+    command = sys.argv[1]
+    
+    if command == "-l":
+        list_captures()
+        sys.exit(0)
+    
+    if command == "-d":
+        if len(sys.argv) < 3:
+            print("Usage: qc -d id")
+            sys.exit(1)
+        delete_capture(sys.argv[2])
+        sys.exit(0)
+    
+    if command == "--toggle":
+        if len(sys.argv) < 3:
+            print("Usage: qc --toggle id")
+            sys.exit(1)
+        toggle_done(sys.argv[2])
+        sys.exit(0)
+    
+    if command == "--export":
+        export_to_memory()
+        sys.exit(0)
+    
+    if command == "--clear":
+        confirm = input("Clear all captures? [y/N]: ")
+        if confirm.lower() == "y":
+            clear_all()
+        sys.exit(0)
+    
+    # Add new capture
+    category = "task"
+    text = " ".join(sys.argv[1:])
+    
+    if not text.strip():
+        print("Error: Cannot capture empty text")
+        sys.exit(1)
+    
+    add_capture(text, category)
+
+if __name__ == "__main__":
+    main()

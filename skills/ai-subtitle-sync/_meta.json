@@ -1,0 +1,15 @@
+{
+  "name": "ai-subtitle-sync",
+  "description": "AI subtitle synchronization using Whisper ASR with SRT/VTT export and video burning",
+  "metadata": {
+    "clawdbot": {
+      "emoji": "💬",
+      "requires": {
+        "bins": ["python3", "ffmpeg"],
+        "env": [],
+        "optionalEnv": []
+      },
+      "primaryEnv": null
+    }
+  }
+}

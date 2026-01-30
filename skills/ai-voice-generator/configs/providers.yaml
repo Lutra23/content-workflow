@@ -1,0 +1,47 @@
+# AI Voice Generator - Provider Configuration
+providers:
+  primary: elevenlabs
+  fallback_order:
+    - elevenlabs
+    - openai
+    - azure
+    - coqui
+  
+  elevenlabs:
+    model: eleven_monolingual_v1
+    stability: 0.5
+    similarity_boost: 0.75
+    style: 0.0
+    use_speaker_boost: true
+  
+  openai:
+    model: tts-1
+    voices:
+      - alloy
+      - echo
+      - fable
+      - onyx
+      - nova
+      - shimmer
+  
+  azure:
+    region: eastus
+    default_voice: zh-CN-XiaoxiaoNeural
+  
+  coqui:
+    model: tts_models/multilingual/multi-dataset/xtts_v2
+
+rate_limits:
+  elevenlabs:
+    characters_per_month: 10000
+  openai:
+    requests_per_minute: 50
+  azure:
+    requests_per_second: 20
+
+output:
+  default_format: mp3
+  supported_formats:
+    - mp3
+    - wav
+    - ogg

@@ -1,0 +1,15 @@
+{
+  "name": "ai-storyboard-gen",
+  "description": "AI storyboard generator for anime production, with script parsing and shot design",
+  "metadata": {
+    "clawdbot": {
+      "emoji": "🎬",
+      "requires": {
+        "bins": ["python3"],
+        "env": [],
+        "optionalEnv": ["HF_TOKEN"]
+      },
+      "primaryEnv": null
+    }
+  }
+}

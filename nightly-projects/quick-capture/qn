@@ -1,0 +1,168 @@
+#!/usr/bin/env python3
+"""
+Quick Note Capture (qn) - Enhanced with tags and search
+
+Usage:
+    qn "note text"              # Capture with auto-tags
+    qn "note #tag1 #tag2"       # Capture with tags
+    qn -m "multiline note"      # Capture multiline note
+    qn --today                  # Show today's notes
+    qn --search "keyword"       # Search all notes
+    qn --recent                 # Show recent notes
+    qn --tags                   # List all tags
+"""
+
+import os
+import sys
+import re
+from datetime import datetime
+from pathlib import Path
+
+MEMORY_DIR = Path.home() / "clawd" / "memory"
+
+def get_today_file():
+    """Get today's memory file path."""
+    today = datetime.now().strftime("%Y-%m-%d")
+    MEMORY_DIR.mkdir(parents=True, exist_ok=True)
+    return MEMORY_DIR / f"{today}.md"
+
+def get_all_memory_files():
+    """Get all memory files sorted by date."""
+    if not MEMORY_DIR.exists():
+        return []
+    return sorted(MEMORY_DIR.glob("*.md"), reverse=True)
+
+def extract_tags(text):
+    """Extract #tags from text."""
+    return re.findall(r'#(\w+)', text)
+
+def format_tags(tags):
+    """Format tags for display."""
+    if not tags:
+        return ""
+    return " " + " ".join(f"`{t}`" for t in tags)
+
+def capture_note(note: str, multiline: bool = False):
+    """Append a note to today's memory file."""
+    file_path = get_today_file()
+    timestamp = datetime.now().strftime("%H:%M:%S")
+    
+    # Extract and format tags
+    tags = extract_tags(note)
+    tag_str = format_tags(tags)
+    
+    # Determine if file is new
+    is_new = not file_path.exists() or file_path.stat().st_size == 0
+    
+    # Build note content
+    header = f"\n## {timestamp}{tag_str}\n" if not is_new else f"## {timestamp}{tag_str}\n"
+    content = f"{header}{note}\n"
+    
+    # Append to file
+    with open(file_path, "a", encoding="utf-8") as f:
+        f.write(content)
+    
+    tag_msg = f" tags: {', '.join(tags)}" if tags else ""
+    print(f"✓ Note captured at {timestamp}{tag_msg}")
+
+def show_today():
+    """Display today's notes."""
+    file_path = get_today_file()
+    if file_path.exists():
+        print(f"=== Today's Notes ({file_path.name}) ===")
+        print(file_path.read_text())
+    else:
+        print("No notes yet today.")
+
+def search_notes(keyword: str):
+    """Search all notes for keyword."""
+    keyword = keyword.lower()
+    found = []
+    
+    for file_path in get_all_memory_files()[:10]:  # Last 10 days
+        content = file_path.read_text()
+        if keyword in content.lower():
+            lines = content.split('\n')
+            for line in lines:
+                if keyword in line.lower():
+                    found.append(f"[{file_path.name}] {line.strip()}")
+    
+    if found:
+        print(f"=== Found {len(found)} results ===")
+        for item in found[:20]:
+            print(item)
+    else:
+        print("No matches found.")
+
+def show_recent():
+    """Show recent notes from last 3 days."""
+    print("=== Recent Notes ===")
+    for i, file_path in enumerate(get_all_memory_files()[:3]):
+        content = file_path.read_text()
+        lines = [l.strip() for l in content.split('\n') if l.strip() and not l.startswith('#')][:5]
+        print(f"\n{file_path.name}:")
+        for line in lines:
+            print(f"  {line}")
+
+def list_tags():
+    """List all unique tags."""
+    tags = set()
+    for file_path in get_all_memory_files()[:30]:  # Last 30 days
+        content = file_path.read_text()
+        tags.update(extract_tags(content))
+    
+    if tags:
+        print(f"=== All Tags ({len(tags)}) ===")
+        sorted_tags = sorted(tags)
+        # Group by first letter
+        grouped = {}
+        for t in sorted_tags:
+            letter = t[0].upper()
+            grouped.setdefault(letter, []).append(t)
+        
+        for letter in sorted(grouped.keys()):
+            print(f"\n{letter}:")
+            print("  " + " ".join(f"`{t}`" for t in grouped[letter]))
+    else:
+        print("No tags yet. Use #tag in your notes!")
+
+def main():
+    if len(sys.argv) < 2:
+        print(__doc__)
+        sys.exit(1)
+    
+    command = sys.argv[1]
+    
+    if command == "--today":
+        show_today()
+        sys.exit(0)
+    
+    if command == "--search":
+        if len(sys.argv) < 3:
+            print("Usage: qn --search keyword")
+            sys.exit(1)
+        search_notes(sys.argv[2])
+        sys.exit(0)
+    
+    if command == "--recent":
+        show_recent()
+        sys.exit(0)
+    
+    if command == "--tags":
+        list_tags()
+        sys.exit(0)
+    
+    multiline = "-m" in sys.argv
+    if multiline:
+        sys.argv.remove("-m")
+    
+    note = " ".join(sys.argv[1:]) if not multiline else "\n" + " ".join(sys.argv[1:])
+    
+    if not note.strip():
+        print("Error: Note cannot be empty")
+        sys.exit(1)
+    
+    capture_note(note, multiline)
+
+if __name__ == "__main__":
+    main()

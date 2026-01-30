@@ -1,0 +1,36 @@
+# AI Music Generator - Provider Configuration
+providers:
+  primary: mubert
+  fallback_order:
+    - mubert
+    - musicgen
+    - soundful
+  
+  mubert:
+    mode: track
+    loop: true
+    format: mp3
+    bitrate: 320
+  
+  musicgen:
+    model: musicgen-small
+    duration: 30
+    format: wav
+  
+  soundful:
+    quality: high
+    format: wav
+
+rate_limits:
+  mubert:
+    requests_per_minute: 10
+  musicgen:
+    requests_per_minute: 5
+
+output:
+  default_format: mp3
+  supported_formats:
+    - mp3
+    - wav
+    - flac
+    - ogg

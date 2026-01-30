@@ -1,0 +1,132 @@
+# Anime Style Presets
+# Pre-configured styles for consistent anime image generation
+
+presets:
+  # Standard anime style - versatile and widely compatible
+  standard_anime:
+    prompt_template: "masterpiece, best quality, anime style, {prompt}, detailed illustration, beautiful eyes, vibrant colors, clean lines"
+    negative_prompt: "low quality, worst quality, blurry, bad anatomy, bad hands, missing fingers, extra digit, fewer digits, cropped, jpeg artifacts, signature, watermark, username"
+    default_size: [1024, 1024]
+    guidance_scale: 7.5
+    steps: 30
+    model: anime-full-res
+
+  # Soft anime style - gentle and romantic
+  soft_anime:
+    prompt_template: "soft anime style, delicate, {prompt}, pastel colors, gentle lighting, romantic atmosphere, dreamy, flowing hair, gentle expressions"
+    negative_prompt: "dark, gritty, realistic, harsh shadows, strong contrast, rough texture, violent, scary"
+    default_size: [1024, 1024]
+    guidance_scale: 6.5
+    steps: 25
+    model: anything-v5
+
+  # Action anime style - dynamic and dramatic
+  action_anime:
+    prompt_template: "dynamic anime action scene, {prompt}, dramatic lighting, fast motion blur, intense atmosphere, powerful pose, impact frame, speed lines"
+    negative_prompt: "static, calm, peaceful, still, boring pose, flat lighting, low energy"
+    default_size: [1280, 720]
+    guidance_scale: 8.0
+    steps: 35
+    model: Counterfeit
+
+  # Chibi style - cute small characters
+  chibi:
+    prompt_template: "chibi anime style, cute, {prompt}, big head, small body, adorable, expressive face, simplified proportions, kawaii"
+    negative_prompt: "realistic, adult proportions, detailed anatomy, mature, scary"
+    default_size: [512, 512]
+    guidance_scale: 6.0
+    steps: 20
+    model: anime-full-res
+
+  # Mecha anime style
+  mecha:
+    prompt_template: "mecha anime, mecha design, {prompt}, mechanical, robots, sci-fi, detailed mechanical parts, industrial, technical"
+    negative_prompt: "organic, biological, soft, cute, cartoonish mecha"
+    default_size: [1280, 720]
+    guidance_scale: 8.0
+    steps: 35
+    model: RevAnimated
+
+  # Fantasy anime style
+  fantasy_anime:
+    prompt_template: "fantasy anime, magical, {prompt}, ethereal, mystical, fantasy elements, magical effects, glowing, supernatural"
+    negative_prompt: "modern, realistic, mundane, sci-fi, mechanical"
+    default_size: [1024, 1024]
+    guidance_scale: 7.5
+    steps: 30
+    model: Counterfeit
+
+  # Horror anime style
+  horror_anime:
+    prompt_template: "horror anime, dark, {prompt}, scary, unsettling, creepy, dark atmosphere, suspense, thriller"
+    negative_prompt: "bright, cheerful, cute, happy, peaceful, safe"
+    default_size: [1024, 1024]
+    guidance_scale: 8.0
+    steps: 35
+    model: anything-v5
+
+  # Slice of life anime
+  slice_of_life:
+    prompt_template: "slice of life anime, everyday life, {prompt}, casual, relatable, natural lighting, daily activities, school life"
+    negative_prompt: "fantasy, sci-fi, action, dramatic, magical, supernatural"
+    default_size: [1920, 1080]
+    guidance_scale: 6.5
+    steps: 25
+    model: anime-full-res
+
+  # Watercolor anime style
+  watercolor_anime:
+    prompt_template: "watercolor anime style, artistic, {prompt}, soft edges, paint texture, hand-painted look, flowing colors"
+    negative_prompt: "sharp lines, digital art, clean vectors, crisp edges, overly detailed"
+    default_size: [1024, 1024]
+    guidance_scale: 6.0
+    steps: 25
+    model: anything-v5
+
+  # Noir anime style
+  noir_anime:
+    prompt_template: "anime noir, film noir style, {prompt}, monochrome, high contrast, shadows, dramatic lighting, mysterious"
+    negative_prompt: "colorful, bright, cheerful, pastel, vibrant"
+    default_size: [1024, 1024]
+    guidance_scale: 7.5
+    steps: 30
+    model: Counterfeit
+
+# Background specific presets
+background_presets:
+  school:
+    prompt_template: "anime school background, {prompt}, school setting, classroom, hallway, school uniform students, educational atmosphere"
+    negative_prompt: "modern office, home interior, nature, outdoor"
+    default_size: [1920, 1080]
+    
+  city:
+    prompt_template: "anime city background, {prompt}, urban setting, buildings, streets, night lights, neon, cityscape"
+    negative_prompt: "rural, nature, countryside, forest"
+    default_size: [1920, 1080]
+    
+  nature:
+    prompt_template: "anime nature background, {prompt}, natural setting, trees, mountains, rivers, sky, outdoors"
+    negative_prompt: "urban, buildings, city, indoor"
+    default_size: [1920, 1080]
+    
+  fantasy:
+    prompt_template: "anime fantasy background, {prompt}, magical realm, fantastical landscape, floating islands, mystical"
+    negative_prompt: "realistic, modern, contemporary"
+    default_size: [1920, 1080]
+
+# Character specific presets
+character_presets:
+  girl:
+    prompt_template: "anime girl, {prompt}, female character, beautiful, detailed hair, expressive eyes"
+    negative_prompt: "male, boy, man, masculine features"
+    default_size: [1024, 1024]
+    
+  boy:
+    prompt_template: "anime boy, {prompt}, male character, handsome, detailed hair, expressive eyes"
+    negative_prompt: "female, girl, woman, feminine features"
+    default_size: [1024, 1024]
+    
+  group:
+    prompt_template: "anime character group, multiple characters, {prompt}, ensemble, interaction, dynamic composition"
+    negative_prompt: "single character, solo, isolated"
+    default_size: [1920, 1080]

@@ -1,0 +1,11 @@
+{
+  "owner": "ai-anime-team",
+  "slug": "ai-voice-generator",
+  "displayName": "AI Voice Generator",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1706745600000,
+    "commit": "https://github.com/clawdbot/skills/commit/initial"
+  },
+  "history": []
+}

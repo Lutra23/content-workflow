@@ -1,0 +1,36 @@
+# Clawdbot Quick Aliases
+# Add to ~/.bashrc or ~/.zshrc
+
+# Quick notes and capture
+alias qn='python3 ~/bin/qn'
+alias qc='python3 ~/bin/qc'
+alias qn-today='qn --today'
+alias qn-search='qn --search'
+alias qn-tags='qn --tags'
+alias qc-list='qc -l'
+
+# System status
+alias status='bash ~/clawd/scripts/quick-status.sh'
+
+# Clawdbot shortcuts
+alias clawd='clawdbot'
+alias clawd-status='clawdbot status'
+alias clawd-logs='tail -50 ~/.clawdbot/logs/*.log 2>/dev/null | head -100'
+
+# Nightly projects
+alias nightly='ls -la ~/clawd/nightly-projects/'
+
+# Memory
+alias memory-today='cat ~/clawd/memory/$(date +%Y-%m-%d).md'
+alias memory-recent='qn --recent'
+
+# Skills
+alias skills-list='clawdbot skills list 2>/dev/null | head -30'
+alias skills-update='clawdbot skills sync 2>/dev/null'
+
+# Navigation
+alias clawd-cd='cd ~/clawd'
+alias projects-cd='cd ~/clawd/nightly-projects'
+
+# Quick help
+alias clawd-help='echo "qn: Quick Notes | qc: Quick Capture | status: System Status | clawd: Clawdbot commands"'

@@ -1,0 +1,61 @@
+templates:
+  default:
+    panel_size: [1920, 1080]
+    margin: 40
+    spacing: 20
+    font_size: 16
+    show_frame_number: true
+    show_action: true
+    show_dialogue: true
+    
+  anime:
+    panel_size: [1920, 1080]
+    margin: 50
+    spacing: 30
+    font_size: 18
+    show_camera_info: true
+    show_timing: true
+    style: "anime_storyboard"
+    
+  comic:
+    panel_size: [1200, 1600]
+    margin: 30
+    spacing: 15
+    font_size: 14
+    panels_per_page: 4
+
+shot_presets:
+  establishing_shot:
+    shot_size: "wide"
+    camera_angle: "high_angle"
+    movement: "static"
+    duration: 5
+    
+  character_intro:
+    shot_size: "medium"
+    camera_angle: "eye_level"
+    movement: "static"
+    duration: 3
+    
+  dialogue:
+    shot_size: "close_up"
+    camera_angle: "eye_level"
+    movement: "static"
+    duration: 2
+    
+  action_sequence:
+    shot_size: "medium"
+    camera_angle: "low_angle"
+    movement: "pan"
+    duration: 2
+
+composition:
+  rule_of_thirds: true
+  focal_points:
+    wide: [50, 60]
+    medium: [50, 50]
+    close_up: [50, 45]
+  headroom:
+    wide: 15
+    medium: 20
+    close_up: 10

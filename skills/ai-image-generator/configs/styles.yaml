@@ -1,0 +1,85 @@
+# Anime Style Presets
+# These presets optimize prompts for different anime styles
+
+presets:
+  standard_anime:
+    # Standard high-quality anime style
+    prompt_template: |
+      masterpiece, best quality, anime style, highly detailed,
+      {prompt},
+      beautiful eyes, sharp focus, vibrant colors,
+      professional illustration, clean lines
+    negative_prompt: |
+      low quality, worst quality, blurry, bad anatomy,
+      bad hands, extra limbs, deformed, disfigured,
+      poorly drawn face, mutation, mutated
+    default_size: [1024, 1024]
+    recommended_steps: 30
+    guidance_scale: 7.5
+
+  soft_anime:
+    # Soft, romantic anime style
+    prompt_template: |
+      soft anime style, gentle atmosphere, {prompt},
+      pastel colors, gentle lighting, romantic mood,
+      soft shadows, dreamy, ethereal, flowing hair
+    negative_prompt: |
+      dark, gritty, realistic, harsh lighting,
+      high contrast, aggressive, violent, scary
+    default_size: [1024, 1024]
+    recommended_steps: 25
+    guidance_scale: 7.0
+
+  action_anime:
+    # Dynamic action anime style
+    prompt_template: |
+      dynamic anime action scene, {prompt},
+      dramatic lighting, fast motion blur, intense atmosphere,
+      impact effects, speed lines, dynamic pose,
+      power, energy, excitement
+    negative_prompt: |
+      static, calm, peaceful, slow, gentle,
+      boring, static pose, still
+    default_size: [1280, 720]
+    recommended_steps: 35
+    guidance_scale: 8.0
+
+  cinematic:
+    # Cinematic movie-poster style
+    prompt_template: |
+      cinematic anime, movie poster style, {prompt},
+      dramatic composition, film grain, professional lighting,
+      wide angle, epic scene, detailed background,
+      blockbuster quality, theatrical
+    negative_prompt: |
+      amateur, low quality, static pose,
+      bad composition, dull, flat lighting
+    default_size: [1920, 1080]
+    recommended_steps: 40
+    guidance_scale: 8.5
+
+  chibi:
+    # Cute chibi style
+    prompt_template: |
+      chibi anime style, super deformed, {prompt},
+      cute, adorable, big head, small body,
+      kawaii, chibi proportions, round, fluffy
+    negative_prompt: |
+      realistic, adult, dark, scary,
+      muscular, detailed anatomy
+    default_size: [512, 512]
+    recommended_steps: 20
+    guidance_scale: 6.5
+
+  watercolor:
+    # Watercolor illustration style
+    prompt_template: |
+      watercolor anime illustration, {prompt},
+      soft brushstrokes, painterly, artistic,
+      flowing lines, color bleeding, gentle transitions
+    negative_prompt: |
+      sharp lines, digital art, stiff, rigid,
+      overdetailed, photorealistic
+    default_size: [1024, 1024]
+    recommended_steps: 25
+    guidance_scale: 6.0
