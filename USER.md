@@ -9,6 +9,13 @@
 - **Timezone:** Asia/Shanghai (UTC+8)
 - **Channel:** Feishu DM (primary)
 
+## GitHub
+
+- **Account:** Lutra23
+- **CLI:** ✅ 已登录 (`gh auth status`)
+- **Protocol:** HTTPS
+- **Token scopes:** gist, read:org, repo, workflow
+
 ## Context
 
 **What they care about:**
