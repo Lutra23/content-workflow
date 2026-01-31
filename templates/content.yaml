@@ -1,0 +1,182 @@
+# Content Templates
+# 使用 YAML 格式，便于管理和版本控制
+
+version: "1.0"
+
+templates:
+  # 文章模板
+  article_professional:
+    name: "专业文章"
+    description: "适合技术博客、知乎等专业内容"
+    model: "llama-3.3-70b-versatile"
+    temperature: 0.7
+    max_tokens: 3000
+    
+    system_prompt: |
+      你是一位资深技术作家，专注于{topic}领域。
+      你的文章风格：
+      - 结构清晰，逻辑严密
+      - 用通俗语言解释复杂概念
+      - 提供实用建议和代码示例
+      - 避免泛泛而谈，每句话都有价值
+    
+    prompt_template: |
+      请为一篇关于「{{topic}}」的技术文章生成内容。
+
+      背景信息：
+      - 关键词：{{keywords}}
+      - 目标读者：{{audience}}
+      - 参考资料：{{references}}
+
+      要求：
+      1. 标题吸睛但准确
+      2. 开头用 hook 抓住读者
+      3. 使用 3-4 个 h2 小标题
+      4. 每个部分包含具体例子或代码
+      5. 结尾有总结和行动呼吁
+      6. 总字数：1500-2000 字
+      7. 直接输出 Markdown，不要有其他说明
+
+      格式：
+      # 标题
+
+      ## 开场（100字以内）
+
+      ## 小标题1
+      内容...
+
+      ## 小标题2
+      内容...
+
+      ## 小标题3
+      内容...
+
+      ## 总结
+
+      ---
+
+  article_viral:
+    name: "病毒式传播文章"
+    description: "适合社交媒体传播的高分享内容"
+    model: "claude-sonnet-4"
+    temperature: 0.9
+    max_tokens: 2000
+    
+    system_prompt: |
+      你是一位内容病毒式传播专家，深谙社交媒体传播规律。
+      你的文章特点：
+      - 开头 3 秒抓住注意力
+      - 情绪共鸣强
+      - 金句频出
+      - 容易截图分享
+    
+    prompt_template: |
+      请为「{{topic}}」写一篇病毒式传播文章。
+
+      目标：
+      - 让读者想分享给朋友
+      - 引发评论区讨论
+      - 激发「原来如此」的感叹
+
+      风格：
+      - 口语化，有个性
+      - 用类比解释复杂概念
+      - 金句用 **加粗**
+      - 500-800 字
+
+      直接输出 Markdown 格式。
+
+  # 视频脚本模板
+  video_script_3min:
+    name: "3分钟技术视频"
+    description: "适合 B 站、YouTube 短视频"
+    model: "deepseek-chat"
+    temperature: 0.8
+    max_tokens: 1500
+    
+    system_prompt: |
+      你是一位技术视频创作者，擅长用 3 分钟讲清楚一个技术点。
+      你的脚本特点：
+      - 口语化，适合念出来
+      - 节奏感强，不冷场
+      - 结尾有互动引导
+    
+    prompt_template: |
+      请为「{{topic}}」写一个 3 分钟视频脚本。
+
+      目标观众：{{audience}}
+      风格：{{style}}（专业/轻松/幽默）
+
+      格式：
+      [开场白 - 10秒]
+      「大家好！今天聊聊{{topic}}...」
+
+      [要点1 - 50秒]
+      「首先，{{point1}}...」
+
+      [要点2 - 50秒]
+      「然后，{{point2}}...」
+
+      [要点3 - 50秒]
+      「最后，{{point3}}...」
+
+      [结尾 - 20秒]
+      「以上就是 {{topic}} 的核心要点...」
+
+      直接输出脚本，不要有其他说明。
+
+  # 社交媒体模板
+  thread_x:
+    name: "X/Twitter 线程"
+    description: "适合 X 平台的系列推文"
+    model: "llama-3.3-70b-versatile"
+    temperature: 0.8
+    max_tokens: 1000
+    
+    system_prompt: |
+      你擅长写 X 线程，每条推文都精心设计。
+      特点：
+      - 第 1 条最吸引人
+      - 中间有条理地展开
+      - 最后有钩子引导关注
+    
+    prompt_template: |
+      请为「{{topic}}」写一个 X 线程。
+
+      要求：
+      - {{n}} 条推文
+      - 每条 200-280 字
+      - 包含 2-3 个 emoji
+      - 用数字编号：1/{{n}}、2/{{n}}...
+      - 最后引导关注
+
+      主题：{{topic}}
+      关键点：{{key_points}}
+
+      直接输出推文内容。
+
+# 变量定义
+variables:
+  topic: "文章主题"
+  keywords: "关键词列表，逗号分隔"
+  audience: "目标读者描述"
+  references: "参考资料（可选）"
+  style: "风格：专业/轻松/幽默"
+  point1: "第一个要点"
+  point2: "第二个要点"
+  point3: "第三个要点"
+  n: "推文数量"
+  key_points: "核心要点"
+
+# 质量检查规则
+quality_checks:
+  min_word_count: 500
+  max_word_count: 5000
+  required_sections:
+    - hook
+    - body
+    - conclusion
+  forbidden:
+    - "首先，其次，最后" (过度使用)
+    - 泛泛而谈
+    - 过于冗长
