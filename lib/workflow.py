@@ -237,7 +237,7 @@ class AIClient:
         """Groq - 最快最便宜"""
         api_key = os.environ.get("GROQ_API_KEY", "")
         if not api_key:
-            api_key = "sk_hv06qmEU9fc3gnFTEm95WGdyb3FYWcXmEOeecxwPFD3TBkIYfs8q"
+            raise ValueError("GROQ_API_KEY not set. Please configure in .env or environment variable.")
         
         model = self.config.get("model", "llama-3.3-70b-versatile")
         
@@ -259,7 +259,7 @@ class AIClient:
         """DeepSeek - 便宜"""
         api_key = os.environ.get("DEEPSEEK_API_KEY", "")
         if not api_key:
-            api_key = "sk-b83061fb73e7423482084250637aca48"
+            raise ValueError("DEEPSEEK_API_KEY not set. Please configure in .env or environment variable.")
         
         response = requests.post(
             "https://api.deepseek.com/chat/completions",
@@ -279,7 +279,7 @@ class AIClient:
         """SiliconFlow - 便宜"""
         api_key = os.environ.get("SILICON_API_KEY", "")
         if not api_key:
-            api_key = "sk-avivaqragowuuxqxfcdvaxqbjxpebcqnbjmzkuoxroviigna"
+            raise ValueError("SILICON_API_KEY not set. Please configure in .env or environment variable.")
         
         model = self.config.get("model", "deepseek-chat")
         
@@ -301,7 +301,7 @@ class AIClient:
         """OpenRouter - 多模型"""
         api_key = os.environ.get("OPENROUTER_API_KEY", "")
         if not api_key:
-            api_key = "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"
+            raise ValueError("OPENROUTER_API_KEY not set. Please configure in .env or environment variable.")
         
         model = self.config.get("model", "anthropic/claude-sonnet-4-20250514")
         
@@ -326,7 +326,7 @@ class AIClient:
         """Yunwu - Claude 国内"""
         api_key = os.environ.get("YUNWU_API_KEY", "")
         if not api_key:
-            api_key = "sk-1bLUHShpKC3NiIVRuf06MrMlE2HTH7ER3Hhv2GiSz6eu8zVT"
+            raise ValueError("YUNWU_API_KEY not set. Please configure in .env or environment variable.")
         
         model = self.config.get("model", "claude-3-5-sonnet")
         
