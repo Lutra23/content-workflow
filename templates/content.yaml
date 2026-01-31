@@ -177,6 +177,6 @@ quality_checks:
     - body
     - conclusion
   forbidden:
-    - "首先，其次，最后" (过度使用)
+    - "首先，其次，最后"
     - 泛泛而谈
     - 过于冗长
