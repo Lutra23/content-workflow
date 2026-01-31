@@ -1,97 +1,133 @@
-# Content Factory - Production Content Workflow System
+# Content Factory
 
-真正可用的内容生产工作流系统，支持多 AI 提供商自动切换。
+AI-powered 内容生成工作流 - 模板驱动、质量评估、多提供商支持。
 
-## Features
+## ✨ 特性
 
-- ✅ **选题发现** - GitHub Trending + Tavily 搜索
-- ✅ **内容生成** - 支持 5 个 AI 提供商（自动故障转移）
-- ✅ **草稿管理** - 本地存储，自动标记已用选题
-- ✅ **Cron Ready** - 每天自动运行
+- **模板系统**：YAML 定义的内容模板，支持变量替换
+- **多提供商**：Groq / DeepSeek / SiliconFlow / OpenRouter / Yunwu 故障转移
+- **质量评估**：可读性、SEO、结构、互动性评分
+- **CLI 工具**：一条命令生成内容
 
-## API Providers (按性价比排序)
-
-| Provider | 模型 | 价格 | 状态 |
-|----------|------|------|------|
-| Groq | Llama 3.3 70B | $0.0003/1k | ✅ 已配置 |
-| DeepSeek | DeepSeek Chat | $0.00014/1k | ✅ 已配置 |
-| SiliconFlow | DeepSeek | $0.0001/1k | ✅ 已配置 |
-| OpenRouter | Claude Sonnet | $0.003/1k | ✅ 已配置 |
-| Yunwu | Claude 3.5 | $0.003/1k | ✅ 已配置 |
-
-## Quick Start
+## 📦 安装
 
 ```bash
+# 克隆项目
+git clone https://github.com/Lutra23/content-workflow.git
 cd content-workflow
 
-# 1. 运行每日工作流（发现选题 + 生成文章）
-python scripts/generate.py daily
+# 安装依赖
+pip install -r requirements.txt
 
-# 2. 发现选题
-python scripts/generate.py discover
-
-# 3. 生成文章
-python scripts/generate.py "你的选题" --type article
-
-# 4. 查看状态
-python scripts/generate.py status
-
-# 5. 列出草稿
-python scripts/generate.py list --status draft
+# 配置环境变量
+cp .env.example .env
+# 编辑 .env 填入 API keys
 ```
 
-## 自动运行
+## 🚀 快速开始
 
-添加 crontab：
+### 1. 生成文章
 
 ```bash
-# 每天 9:00 自动运行
-0 9 * * * cd /path/to/content-workflow && PYTHONPATH=. python scripts/generate.py daily >> logs/cron.log 2>&1
+python scripts/generate.py article --topic "AI Agent 开发" \
+  --keywords "AI, Agent, 自动化" \
+  --audience "技术开发者"
 ```
 
-## 文件结构
+### 2. 生成视频脚本
+
+```bash
+python scripts/generate.py video --topic "3分钟讲懂 AI Agent"
+```
+
+### 3. 生成社交媒体线程
+
+```bash
+python scripts/generate.py thread --topic "AI Agent 革命" --n 10
+```
+
+## 📋 模板列表
+
+| 模板 | 用途 | 场景 |
+|------|------|------|
+| `article_professional` | 专业文章 | 技术博客、知乎 |
+| `article_viral` | 病毒式文章 | 社交媒体传播 |
+| `video_script_3min` | 3分钟视频脚本 | B站、YouTube |
+| `thread_x` | X/Twitter 线程 | 社交媒体 |
+
+## ⚙️ 配置
+
+### 环境变量
+
+```bash
+# AI Providers (至少配置一个)
+GROQ_API_KEY=your_key
+DEEPSEEK_API_KEY=your_key
+SILICON_API_KEY=your_key
+
+# 可选
+OPENROUTER_API_KEY=your_key
+YUNWU_API_KEY=your_key
+```
+
+### 自定义模板
+
+编辑 `templates/content.yaml` 添加你的模板。
+
+## 🧪 测试
+
+```bash
+# 运行单元测试
+python tests/test_core.py
+
+# 运行质量评估
+python -c "
+from lib.quality import QualityAssessor
+score = QualityAssessor().assess('标题', '内容', ['关键词'])
+print(f'Score: {score.overall}/100')
+"
+```
+
+## 📁 项目结构
 
 ```
 content-workflow/
 ├── lib/
-│   └── workflow.py      # 核心引擎
+│   ├── workflow.py        # 核心引擎
+│   ├── template_engine.py # 模板系统
+│   └── quality.py        # 质量评估
+├── templates/
+│   └── content.yaml      # 模板定义
 ├── scripts/
-│   └── generate.py      # CLI 入口
-├── data/
-│   ├── topics.json      # 发现的选题
-│   └── content.json     # 生成的内容
-├── logs/
-│   └── workflow.log     # 运行日志
-├── config.yaml          # 配置文件
-├── requirements.txt
-└── README.md
+│   └── generate.py       # CLI 入口
+├── tests/
+│   └── test_core.py      # 测试
+├── .plans/               # 项目计划
+├── requirements.txt      # 依赖
+└── README.md            # 文档
 ```
 
-## 生成示例
+## 🔧 开发
 
+```bash
+# 运行测试
+make test
+
+# 代码检查
+make lint
+
+# 生成文档
+make docs
 ```
-$ python scripts/generate.py generate "如何用AI自动化提升科研工作效率"
 
-✅ Generated article: c_20260131_020900
-   Title: 如何用AI自动化提升科研工作效率
-   Status: draft
-   Words: 142
-```
+## 📝 CHANGELOG
 
-## 下一步
+见 [CHANGELOG.md](./CHANGELOG.md)
 
-1. **配置发布** - 添加知乎/B站发布 API
-2. **模板优化** - 添加更多内容模板
-3. **多语言** - 支持英文内容生成
-4. **数据分析** - 追踪发布后数据
+## 🤝 贡献
 
-## 技术栈
+欢迎提交 Issue 和 PR！
 
-- Python 3.9+
-- Requests (HTTP)
-- PyYAML (配置)
-- 多 AI API 集成
+## 📄 许可证
 
----
-
-*Built for solopreneurs who want to automate content production*
+MIT
