@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary
+tmp/
+temp/
+*.tmp
+
+# Clawdbot specific
+.clawdbot/data/
+.clawdbot/memory/
+!.clawdbot/.gitkeep
+
+# Memory files (personal, not for sharing)
+memory/*.md
+!memory/.gitkeep
+
+# Secret keys (never commit!)
+*.pem
+*.key
+credentials/
