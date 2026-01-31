@@ -1,0 +1,13 @@
+⏰ 定时任务已启动
+   每天 8:00 自动生成简报
+
+🚀 立即生成今日简报...
+
+🕘 定时任务触发: 生成今日简报
+🔄 聚合数据源...
+⏱️  使用缓存 (1小时内)
+⏱️  RSS 缓存有效 (2小时内)
+✅ 聚合完成: 20 条 (AI 相关: 20)
+✅ 简报已生成: /home/zous/clawd/services/ai-newsletter/briefings/2026-01-30.json
+   Markdown: /home/zous/clawd/services/ai-newsletter/briefings/2026-01-30.md
+   耗时: 5ms

@@ -1,0 +1,15 @@
+{
+  "name": "ai-output-formatter",
+  "description": "Multi-format video export and optimization for anime productions. Supports YouTube, Bilibili, Twitter, Instagram, Web, and Discord presets.",
+  "metadata": {
+    "clawdbot": {
+      "emoji": "📦",
+      "requires": {
+        "bins": ["ffmpeg"],
+        "env": [],
+        "python": ["pyyaml"]
+      },
+      "primaryEnv": null
+    }
+  }
+}

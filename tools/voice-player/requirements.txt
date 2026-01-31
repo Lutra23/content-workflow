@@ -1,0 +1,3 @@
+# No Python dependencies needed - uses system audio player
+# Optional: pip install pydub for advanced audio handling
+# pydub>=0.25.1

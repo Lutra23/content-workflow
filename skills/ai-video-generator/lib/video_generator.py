@@ -29,6 +29,31 @@ class Provider(Enum):
     AUTO = "auto"
 
 
+# Alias for backward compatibility
+VideoProvider = Provider
+
+
+class MotionPreset(Enum):
+    """Motion presets for anime video generation."""
+    GENTLE = "gentle"
+    DYNAMIC = "dynamic"
+    CINEMATIC = "cinematic"
+    DREAMY = "dreamy"
+
+
+class CameraMotion(Enum):
+    """Camera motion types."""
+    STATIC = "static"
+    PAN_LEFT = "pan_left"
+    PAN_RIGHT = "pan_right"
+    TILT_UP = "tilt_up"
+    TILT_DOWN = "tilt_down"
+    ZOOM_IN = "zoom_in"
+    ZOOM_OUT = "zoom_out"
+    DOLLY = "dolly"
+    SHAKE = "shake"
+
+
 @dataclass
 class VideoParams:
     """Parameters for video generation."""

@@ -1,0 +1,42 @@
+# Obsidian AI Writer 配置示例
+# 复制到 ~/.config/obsidian-ai-writer/config.json
+
+{
+  "vault_path": "/path/to/your/obsidian-vault",
+  
+  "api": {
+    "yunwu": {
+      "enabled": true,
+      "base_url": "https://yunwu.ai/v1",
+      "api_key_env": "YUNWU_API_KEY"
+    },
+    "model": "google/gemini-3-flash-preview",
+    "temperature": 0.7,
+    "max_tokens": 2048
+  },
+  
+  "memory": {
+    "enabled": true,
+    "type": "git-notes",
+    "auto_sync": true,
+    "auto_capture": true
+  },
+  
+  "templates": {
+    "dir": "./prompts",
+    "default": "daily.jinja2"
+  },
+  
+  "output": {
+    "daily_dir": "memory",
+    "docs_dir": "docs",
+    "date_format": "%Y-%m-%d"
+  }
+}
+
+# 环境变量
+export YUNWU_API_KEY="sk-6vUtyDKZHLtFuRGRJSuua8hk7GF9Xli3k19VyhzVurkfTU93"
+export YUNWU_BASE_URL="https://yunwu.ai/v1"
+
+# 可选: 自定义 prompt 模板目录
+export OBSIDIAN_PROMPTS_DIR="/home/zous/clawd/skills/obsidian-ai-writer/prompts"

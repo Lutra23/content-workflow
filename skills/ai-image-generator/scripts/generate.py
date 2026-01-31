@@ -5,6 +5,7 @@ Anime Image Generator CLI - Single image generation script
 
 import os
 import sys
+import asyncio
 import argparse
 from pathlib import Path
 from lib.image_generator import AnimeImageGenerator, Provider, QualityMode, ImageType
@@ -65,7 +66,7 @@ Examples:
     direct_parser.add_argument("--output", "-o", help="Output file path")
     
     # Common options
-    parser.add_argument("--config-dir", help="Config directory path")
+    parser.add_argument("--config", help="Config file path")
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
     
     args = parser.parse_args()
@@ -92,49 +93,57 @@ Examples:
     quality = QualityMode(args.quality)
     
     # Initialize generator
-    generator = AnimeImageGenerator(config_dir=args.config_dir)
+    generator = AnimeImageGenerator(config_path=args.config)
     
     if args.verbose:
         import logging
         logging.getLogger().setLevel(logging.DEBUG)
     
-    # Generate based on image type
-    if args.image_type == "character":
-        result = generator.generate_character(
-            prompt=args.prompt,
-            style=args.style,
-            size=(width, height),
-            provider=provider,
-            quality=quality,
-            seed=args.seed,
-            output_path=args.output
-        )
-    elif args.image_type == "background":
-        result = generator.generate_background(
-            prompt=args.prompt,
-            style=args.style,
-            size=(width, height),
-            perspective=args.perspective,
-            provider=provider,
-            quality=quality,
-            output_path=args.output
-        )
-    else:
-        # Direct generation
-        result = generator._generate(
-            prompt=generator._format_prompt(args.prompt, args.style),
-            image_type=ImageType.CHARACTER,
-            size=(width, height),
-            provider=provider,
-            quality=quality,
-            output_path=args.output
-        )
+    async def run_generation():
+        # Generate based on image type
+        if args.image_type == "character":
+            result = await generator.generate_character(
+                prompt=args.prompt,
+                style=args.style,
+                size=(width, height),
+                provider=provider,
+                quality=quality.value if quality else "high",
+                seed=args.seed,
+                output_path=args.output
+            )
+        elif args.image_type == "background":
+            result = await generator.generate_background(
+                prompt=args.prompt,
+                style=args.style,
+                size=(width, height),
+                perspective=args.perspective,
+                provider=provider,
+                quality=quality.value if quality else "high",
+                output_path=args.output
+            )
+        else:
+            # Direct generation
+            result = await generator._generate(
+                prompt=generator._format_prompt(args.prompt, args.style),
+                image_type=ImageType.CHARACTER,
+                size=(width, height),
+                provider=provider,
+                quality=quality.value if quality else "high",
+                output_path=args.output
+            )
+        return result
+    
+    result = asyncio.run(run_generation())
     
     # Output results
     if result.success:
         print(f"✅ Success! Image saved to: {result.image_path}")
         print(f"   Provider: {result.provider}")
-        print(f"   Prompt: {result.prompt_used[:80]}..." if len(result.prompt_used or "") > 80 else f"   Prompt: {result.prompt_used}")
+        prompt_used = getattr(result, 'prompt_used', '') or ''
+        if len(prompt_used) > 80:
+            print(f"   Prompt: {prompt_used[:80]}...")
+        else:
+            print(f"   Prompt: {prompt_used}")
         if result.seed:
             print(f"   Seed: {result.seed}")
         return 0

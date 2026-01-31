@@ -1,0 +1,15 @@
+{
+  "name": "ai-translator",
+  "description": "Script translation for anime productions. Supports SRT, TXT, JSON formats with Google, DeepL, and OpenAI providers.",
+  "metadata": {
+    "clawdbot": {
+      "emoji": "🌐",
+      "requires": {
+        "bins": ["python3"],
+        "env": ["DEEPL_API_KEY", "OPENAI_API_KEY"],
+        "python": ["pyyaml"]
+      },
+      "primaryEnv": "DEEPL_API_KEY"
+    }
+  }
+}

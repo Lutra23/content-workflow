@@ -1,0 +1,92 @@
+{
+  "date": "2026年1月30日星期五",
+  "summary": {
+    "total": 20,
+    "ai": 20,
+    "other": 0
+  },
+  "topAI": [
+    {
+      "id": 46810282,
+      "title": "Claude Code daily benchmarks for degradation tracking",
+      "url": "https://marginlab.ai/trackers/claude-code/",
+      "domain": "marginlab.ai",
+      "score": 677,
+      "by": "qwesr123",
+      "time": "2026-01-29T13:59:07.000Z",
+      "commentCount": 312,
+      "source": "Hacker News",
+      "collectedAt": "2026-01-30T09:41:55.643Z",
+      "isAI": true,
+      "type": "story",
+      "text": "Claude Code daily benchmarks for degradation tracking marginlab.ai",
+      "aiScore": 3
+    },
+    {
+      "id": 46809708,
+      "title": "AGENTS.md outperforms skills in our agent evals",
+      "url": "https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals",
+      "domain": "vercel.com",
+      "score": 336,
+      "by": "maximedupre",
+      "time": "2026-01-29T13:08:11.000Z",
+      "commentCount": 141,
+      "source": "Hacker News",
+      "collectedAt": "2026-01-30T09:41:55.643Z",
+      "isAI": true,
+      "type": "story",
+      "text": "AGENTS.md outperforms skills in our agent evals vercel.com",
+      "aiScore": 2
+    },
+    {
+      "id": 46816539,
+      "title": "Retiring GPT-4o, GPT-4.1, GPT-4.1 mini, and OpenAI o4-mini in ChatGPT",
+      "url": "https://openai.com/index/retiring-gpt-4o-and-older-models/",
+      "domain": "openai.com",
+      "score": 194,
+      "by": "rd",
+      "time": "2026-01-29T21:02:31.000Z",
+      "commentCount": 261,
+      "source": "Hacker News",
+      "collectedAt": "2026-01-30T09:41:55.643Z",
+      "isAI": true,
+      "type": "story",
+      "text": "Retiring GPT-4o, GPT-4.1, GPT-4.1 mini, and OpenAI o4-mini in ChatGPT openai.com",
+      "aiScore": 3
+    },
+    {
+      "id": 46816357,
+      "title": "The WiFi only works when it's raining (2024)",
+      "url": "https://predr.ag/blog/wifi-only-works-when-its-raining/",
+      "domain": "predr.ag",
+      "score": 186,
+      "by": "epicalex",
+      "time": "2026-01-29T20:47:36.000Z",
+      "commentCount": 55,
+      "source": "Hacker News",
+      "collectedAt": "2026-01-30T09:41:55.643Z",
+      "isAI": true,
+      "type": "story",
+      "text": "The WiFi only works when it's raining (2024) predr.ag",
+      "aiScore": 1
+    },
+    {
+      "id": 46820783,
+      "title": "OpenClaw – Moltbot Renamed Again",
+      "url": "https://openclaw.ai/blog/introducing-openclaw",
+      "domain": "openclaw.ai",
+      "score": 160,
+      "by": "ed",
+      "time": "2026-01-30T05:14:48.000Z",
+      "commentCount": 56,
+      "source": "Hacker News",
+      "collectedAt": "2026-01-30T09:41:55.643Z",
+      "isAI": true,
+      "type": "story",
+      "text": "OpenClaw – Moltbot Renamed Again openclaw.ai",
+      "aiScore": 1
+    }
+  ],
+  "topGeneral": [],
+  "generatedAt": "2026-01-30T09:43:08.003Z"
+}

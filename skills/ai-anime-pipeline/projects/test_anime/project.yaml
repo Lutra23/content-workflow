@@ -1,0 +1,31 @@
+name: test_anime
+output_dir: ./projects
+scenes:
+- background: null
+  camera: static
+  characters: []
+  description: 'Scene 1: Sample anime scene'
+  dialogue: null
+  duration: 5.0
+  mood: neutral
+  scene_id: '01'
+  style: anime
+- background: null
+  camera: static
+  characters: []
+  description: 'Scene 2: Sample anime scene'
+  dialogue: Dialogue for scene 2
+  duration: 5.0
+  mood: neutral
+  scene_id: '02'
+  style: anime
+- background: null
+  camera: static
+  characters: []
+  description: 'Scene 3: Sample anime scene'
+  dialogue: null
+  duration: 5.0
+  mood: neutral
+  scene_id: '03'
+  style: anime
+settings: {}

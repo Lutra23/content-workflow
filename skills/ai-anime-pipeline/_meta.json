@@ -1,0 +1,15 @@
+{
+  "name": "ai-anime-pipeline",
+  "description": "End-to-end anime production workflow. Coordinates script → storyboard → images → video → audio → subtitles → final output.",
+  "metadata": {
+    "clawdbot": {
+      "emoji": "🎬",
+      "requires": {
+        "bins": ["python3"],
+        "env": [],
+        "python": ["pyyaml"]
+      },
+      "primaryEnv": null
+    }
+  }
+}

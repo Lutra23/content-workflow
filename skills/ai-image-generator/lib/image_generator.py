@@ -30,6 +30,22 @@ class Provider(Enum):
     AUTO = "auto"
 
 
+class QualityMode(Enum):
+    """Quality modes for image generation."""
+    DRAFT = "draft"
+    FAST = "fast"
+    HIGH = "high"
+
+
+class ImageType(Enum):
+    """Types of images for anime production."""
+    CHARACTER = "character"
+    BACKGROUND = "background"
+    PROP = "prop"
+    EFFECT = "effect"
+    SCENE = "scene"
+
+
 @dataclass
 class GenerationParams:
     """Parameters for image generation."""

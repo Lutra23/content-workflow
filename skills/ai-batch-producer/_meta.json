@@ -1,0 +1,15 @@
+{
+  "name": "ai-batch-producer",
+  "description": "Batch content production for anime projects. Create multiple episodes in parallel with progress tracking.",
+  "metadata": {
+    "clawdbot": {
+      "emoji": "📦",
+      "requires": {
+        "bins": ["python3"],
+        "env": [],
+        "python": ["pyyaml"]
+      },
+      "primaryEnv": null
+    }
+  }
+}

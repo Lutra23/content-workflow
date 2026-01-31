@@ -1,0 +1,11 @@
+# Example crontab for Voice Player
+# Install with: crontab -e
+
+# Play latest voice every 5 minutes (during work hours only)
+*/5 9-18 * * 1-5 cd /home/zous/clawd/tools/voice-player && python voice_player.py --latest >> /tmp/voice.log 2>&1
+
+# Alternative: Play immediately when new voice detected (requires inotify-tools)
+# * * * * * while true; do inotifywait -e create /home/zous/.clawdbot/media/inbound/ && python voice_player.py --latest; done
+
+# Or manually trigger with a command alias:
+# alias voice='python /home/zous/clawd/tools/voice-player/voice_player.py --latest'

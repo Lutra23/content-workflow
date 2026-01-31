@@ -67,9 +67,10 @@ Examples:
     # Parse provider
     provider_map = {
         "auto": VideoProvider.AUTO,
+        "runway": VideoProvider.RUNWAY,
+        "pika": VideoProvider.PIKA,
         "kling": VideoProvider.KLING,
-        "svd": VideoProvider.STABLE_VIDEO_DIFFUSION,
-        "runway": VideoProvider.RUNWAY
+        "luma": VideoProvider.LUMA
     }
     provider = provider_map.get(args.provider.lower(), VideoProvider.AUTO)
     

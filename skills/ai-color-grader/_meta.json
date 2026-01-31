@@ -1,0 +1,15 @@
+{
+  "name": "ai-color-grader",
+  "description": "Video color correction and anime-style presets. Apply cinematic, vintage, anime, and custom color grades.",
+  "metadata": {
+    "clawdbot": {
+      "emoji": "🎨",
+      "requires": {
+        "bins": ["ffmpeg"],
+        "env": [],
+        "python": ["pyyaml"]
+      },
+      "primaryEnv": null
+    }
+  }
+}

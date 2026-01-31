@@ -1,0 +1,277 @@
+{
+  "items": [
+    {
+      "id": "2601.22159v1",
+      "title": "RedSage: A Cybersecurity Generalist LLM",
+      "summary": "Cybersecurity operations demand assistant LLMs that support diverse workflows without exposing sensitive data. Existing solutions either rely on proprietary APIs with privacy risks or on open models lacking domain adaptation. To bridge this gap, we curate 11.8B tokens of cybersecurity-focused continual pretraining data via large-scale web filtering and manual collection of high-quality resources, spanning 28.6K documents across frameworks, offensive techniques, and security tools. Building on this, we design an agentic augmentation pipeline that simulates expert workflows to generate 266K multi-turn cybersecurity samples for supervised fine-tuning. Combined with general open-source LLM data, these resources enable the training of RedSage, an open-source, locally deployable cybersecurity assistant with domain-aware pretraining and post-training. To rigorously evaluate the models, we introduce RedSage-Bench, a benchmark with 30K multiple-choice and 240 open-ended Q&A items covering cybersecurity knowledge, skills, and tool expertise. RedSage is further evaluated on established cybersecurity benchmarks (e.g., CTI-Bench, CyberMetric, SECURE) and general LLM benchmarks to assess broader generalization. At the 8B scale, RedSage achieves consistently better results, surpassing the baseline models by up to +5.59 points on cybersecurity benchmarks and +5.05 points on Open LLM Leaderboard tasks. These findings demonstrate that domain-aware agentic augmentation and pre/post-training can not only enhance cybersecurity-specific expertise but also help to improve general reasoning and instruction-following. All models, datasets, and code are publicly available.",
+      "authors": [
+        "Naufal Suryanto",
+        "Muzammal Naseer",
+        "Pengfei Li",
+        "Syed Talal Wasim",
+        "Jinhui Yi",
+        "Juergen Gall",
+        "Paolo Ceravolo",
+        "Ernesto Damiani"
+      ],
+      "category": [
+        "AI"
+      ],
+      "published": "2026-01-29T18:59:57Z",
+      "pdf_url": "http://arxiv.org/abs/2601.22159v1",
+      "source": "Arxiv",
+      "collectedAt": "2026-01-30T10:17:08.204Z"
+    },
+    {
+      "id": "2601.22157v1",
+      "title": "Discovering Hidden Gems in Model Repositories",
+      "summary": "Public repositories host millions of fine-tuned models, yet community usage remains disproportionately concentrated on a small number of foundation checkpoints. We investigate whether this concentration reflects efficient market selection or if superior models are systematically overlooked. Through an extensive evaluation of over 2,000 models, we show the prevalence of \"hidden gems\", unpopular fine-tunes that significantly outperform their popular counterparts. Notably, within the Llama-3.1-8B family, we find rarely downloaded checkpoints that improve math performance from 83.2% to 96.0% without increasing inference costs. However, discovering these models through exhaustive evaluation of every uploaded model is computationally infeasible. We therefore formulate model discovery as a Multi-Armed Bandit problem and accelerate the Sequential Halving search algorithm by using shared query sets and aggressive elimination schedules. Our method retrieves top models with as few as 50 queries per candidate, accelerating discovery by over 50x.",
+      "authors": [
+        "Jonathan Kahana",
+        "Eliahu Horwitz",
+        "Yedid Hoshen"
+      ],
+      "category": [
+        "ML"
+      ],
+      "published": "2026-01-29T18:59:55Z",
+      "pdf_url": "http://arxiv.org/abs/2601.22157v1",
+      "source": "Arxiv",
+      "collectedAt": "2026-01-30T10:17:08.482Z"
+    },
+    {
+      "id": "2601.22156v1",
+      "title": "Hybrid Linear Attention Done Right: Efficient Distillation and Effective Architectures for Extremely Long Contexts",
+      "summary": "Hybrid Transformer architectures, which combine softmax attention blocks and recurrent neural networks (RNNs), have shown a desirable performance-throughput tradeoff for long-context modeling, but their adoption and studies are hindered by the prohibitive cost of large-scale pre-training from scratch. Some recent studies have shown that pre-trained softmax attention blocks can be converted into RNN blocks through parameter transfer and knowledge distillation. However, these transfer methods require substantial amounts of training data (more than 10B tokens), and the resulting hybrid models also exhibit poor long-context performance, which is the scenario where hybrid models enjoy significant inference speedups over Transformer-based models. In this paper, we present HALO (Hybrid Attention via Layer Optimization), a pipeline for distilling Transformer models into RNN-attention hybrid models. We then present HypeNet, a hybrid architecture with superior length generalization enabled by a novel position encoding scheme (named HyPE) and various architectural modifications. We convert the Qwen3 series into HypeNet using HALO, achieving performance comparable to the original Transformer models while enjoying superior long-context performance and efficiency. The conversion requires just 2.3B tokens, less than 0.01% of their pre-training data",
+      "authors": [
+        "Yingfa Chen",
+        "Zhen Leng Thai",
+        "Zihan Zhou",
+        "Zhu Zhang",
+        "Xingyu Shen",
+        "Shuo Wang",
+        "Chaojun Xiao",
+        "Xu Han",
+        "Zhiyuan Liu"
+      ],
+      "category": [
+        "AI"
+      ],
+      "published": "2026-01-29T18:59:53Z",
+      "pdf_url": "http://arxiv.org/abs/2601.22156v1",
+      "source": "Arxiv",
+      "collectedAt": "2026-01-30T10:17:08.205Z"
+    },
+    {
+      "id": "2601.22154v1",
+      "title": "Exploring Reasoning Reward Model for Agents",
+      "summary": "Agentic Reinforcement Learning (Agentic RL) has achieved notable success in enabling agents to perform complex reasoning and tool use. However, most methods still relies on sparse outcome-based reward for training. Such feedback fails to differentiate intermediate reasoning quality, leading to suboptimal training results. In this paper, we introduce Agent Reasoning Reward Model (Agent-RRM), a multi-faceted reward model that produces structured feedback for agentic trajectories, including (1) an explicit reasoning trace , (2) a focused critique that provides refinement guidance by highlighting reasoning flaws, and (3) an overall score that evaluates process performance. Leveraging these signals, we systematically investigate three integration strategies: Reagent-C (text-augmented refinement), Reagent-R (reward-augmented guidance), and Reagent-U (unified feedback integration). Extensive evaluations across 12 diverse benchmarks demonstrate that Reagent-U yields substantial performance leaps, achieving 43.7% on GAIA and 46.2% on WebWalkerQA, validating the effectiveness of our reasoning reward model and training schemes. Code, models, and datasets are all released to facilitate future research.",
+      "authors": [
+        "Kaixuan Fan",
+        "Kaituo Feng",
+        "Manyuan Zhang",
+        "Tianshuo Peng",
+        "Zhixun Li",
+        "Yilei Jiang",
+        "Shuang Chen",
+        "Peng Pei",
+        "Xunliang Cai",
+        "Xiangyu Yue"
+      ],
+      "category": [
+        "AI"
+      ],
+      "published": "2026-01-29T18:59:52Z",
+      "pdf_url": "http://arxiv.org/abs/2601.22154v1",
+      "source": "Arxiv",
+      "collectedAt": "2026-01-30T10:17:08.205Z"
+    },
+    {
+      "id": "2601.22155v1",
+      "title": "UEval: A Benchmark for Unified Multimodal Generation",
+      "summary": "We introduce UEval, a benchmark to evaluate unified models, i.e., models capable of generating both images and text. UEval comprises 1,000 expert-curated questions that require both images and text in the model output, sourced from 8 real-world tasks. Our curated questions cover a wide range of reasoning types, from step-by-step guides to textbook explanations. Evaluating open-ended multimodal generation is non-trivial, as simple LLM-as-a-judge methods can miss the subtleties. Different from previous works that rely on multimodal Large Language Models (MLLMs) to rate image quality or text accuracy, we design a rubric-based scoring system in UEval. For each question, reference images and text answers are provided to a MLLM to generate an initial rubric, consisting of multiple evaluation criteria, and human experts then refine and validate these rubrics. In total, UEval contains 10,417 validated rubric criteria, enabling scalable and fine-grained automatic scoring. UEval is challenging for current unified models: GPT-5-Thinking scores only 66.4 out of 100, while the best open-source model reaches merely 49.1. We observe that reasoning models often outperform non-reasoning ones, and transferring reasoning traces from a reasoning model to a non-reasoning model significantly narrows the gap. This suggests that reasoning may be important for tasks requiring complex multimodal understanding and generation.",
+      "authors": [
+        "Bo Li",
+        "Yida Yin",
+        "Wenhao Chai",
+        "Xingyu Fu",
+        "Zhuang Liu"
+      ],
+      "category": [
+        "NLP"
+      ],
+      "published": "2026-01-29T18:59:52Z",
+      "pdf_url": "http://arxiv.org/abs/2601.22155v1",
+      "source": "Arxiv",
+      "collectedAt": "2026-01-30T10:17:08.233Z"
+    },
+    {
+      "id": "2601.22151v1",
+      "title": "Late Breaking Results: Conversion of Neural Networks into Logic Flows for Edge Computing",
+      "summary": "Neural networks have been successfully applied in various resource-constrained edge devices, where usually central processing units (CPUs) instead of graphics processing units exist due to limited power availability. State-of-the-art research still focuses on efficiently executing enormous numbers of multiply-accumulate (MAC) operations. However, CPUs themselves are not good at executing such mathematical operations on a large scale, since they are more suited to execute control flow logic, i.e., computer algorithms. To enhance the computation efficiency of neural networks on CPUs, in this paper, we propose to convert them into logic flows for execution. Specifically, neural networks are first converted into equivalent decision trees, from which decision paths with constant leaves are then selected and compressed into logic flows. Such logic flows consist of if and else structures and a reduced number of MAC operations. Experimental results demonstrate that the latency can be reduced by up to 14.9 % on a simulated RISC-V CPU without any accuracy degradation.   The code is open source at https://github.com/TUDa-HWAI/NN2Logic",
+      "authors": [
+        "Daniel Stein",
+        "Shaoyi Huang",
+        "Rolf Drechsler",
+        "Bing Li",
+        "Grace Li Zhang"
+      ],
+      "category": [
+        "ML"
+      ],
+      "published": "2026-01-29T18:59:50Z",
+      "pdf_url": "http://arxiv.org/abs/2601.22151v1",
+      "source": "Arxiv",
+      "collectedAt": "2026-01-30T10:17:08.482Z"
+    },
+    {
+      "id": "2601.22149v1",
+      "title": "DynaWeb: Model-Based Reinforcement Learning of Web Agents",
+      "summary": "The development of autonomous web agents, powered by Large Language Models (LLMs) and reinforcement learning (RL), represents a significant step towards general-purpose AI assistants. However, training these agents is severely hampered by the challenges of interacting with the live internet, which is inefficient, costly, and fraught with risks. Model-based reinforcement learning (MBRL) offers a promising solution by learning a world model of the environment to enable simulated interaction. This paper introduces DynaWeb, a novel MBRL framework that trains web agents through interacting with a web world model trained to predict naturalistic web page representations given agent actions. This model serves as a synthetic web environment where an agent policy can dream by generating vast quantities of rollout action trajectories for efficient online reinforcement learning. Beyond free policy rollouts, DynaWeb incorporates real expert trajectories from training data, which are randomly interleaved with on-policy rollouts during training to improve stability and sample efficiency. Experiments conducted on the challenging WebArena and WebVoyager benchmarks demonstrate that DynaWeb consistently and significantly improves the performance of state-of-the-art open-source web agent models. Our findings establish the viability of training web agents through imagination, offering a scalable and efficient way to scale up online agentic RL.",
+      "authors": [
+        "Hang Ding",
+        "Peidong Liu",
+        "Junqiao Wang",
+        "Ziwei Ji",
+        "Meng Cao",
+        "Rongzhao Zhang",
+        "Lynn Ai",
+        "Eric Yang",
+        "Tianyu Shi",
+        "Lei Yu"
+      ],
+      "category": [
+        "AI"
+      ],
+      "published": "2026-01-29T18:59:07Z",
+      "pdf_url": "http://arxiv.org/abs/2601.22149v1",
+      "source": "Arxiv",
+      "collectedAt": "2026-01-30T10:17:08.205Z"
+    },
+    {
+      "id": "2601.22146v1",
+      "title": "FineInstructions: Scaling Synthetic Instructions to Pre-Training Scale",
+      "summary": "Due to limited supervised training data, large language models (LLMs) are typically pre-trained via a self-supervised \"predict the next word\" objective on a vast amount of unstructured text data. To make the resulting model useful to users, it is further trained on a far smaller amount of \"instruction-tuning\" data comprised of supervised training examples of instructions and responses. To overcome the limited amount of supervised data, we propose a procedure that can transform the knowledge in internet-scale pre-training documents into billions of synthetic instruction and answer training pairs. The resulting dataset, called FineInstructions, uses ~18M instruction templates created from real user-written queries and prompts. These instruction templates are matched to and instantiated with human-written source documents from unstructured pre-training corpora. With \"supervised\" synthetic training data generated at this scale, an LLM can be pre-trained from scratch solely with the instruction-tuning objective, which is far more in-distribution with the expected downstream usage of LLMs (responding to user prompts). We conduct controlled token-for-token training experiments and find pre-training on FineInstructions outperforms standard pre-training and other proposed synthetic pre-training techniques on standard benchmarks measuring free-form response quality. Our resources can be found at https://huggingface.co/fineinstructions .",
+      "authors": [
+        "Ajay Patel",
+        "Colin Raffel",
+        "Chris Callison-Burch"
+      ],
+      "category": [
+        "ML"
+      ],
+      "published": "2026-01-29T18:58:47Z",
+      "pdf_url": "http://arxiv.org/abs/2601.22146v1",
+      "source": "Arxiv",
+      "collectedAt": "2026-01-30T10:17:08.482Z"
+    },
+    {
+      "id": "2601.22141v1",
+      "title": "Routing the Lottery: Adaptive Subnetworks for Heterogeneous Data",
+      "summary": "In pruning, the Lottery Ticket Hypothesis posits that large networks contain sparse subnetworks, or winning tickets, that can be trained in isolation to match the performance of their dense counterparts. However, most existing approaches assume a single universal winning ticket shared across all inputs, ignoring the inherent heterogeneity of real-world data. In this work, we propose Routing the Lottery (RTL), an adaptive pruning framework that discovers multiple specialized subnetworks, called adaptive tickets, each tailored to a class, semantic cluster, or environmental condition. Across diverse datasets and tasks, RTL consistently outperforms single- and multi-model baselines in balanced accuracy and recall, while using up to 10 times fewer parameters than independent models and exhibiting semantically aligned. Furthermore, we identify subnetwork collapse, a performance drop under aggressive pruning, and introduce a subnetwork similarity score that enables label-free diagnosis of oversparsification. Overall, our results recast pruning as a mechanism for aligning model structure with data heterogeneity, paving the way toward more modular and context-aware deep learning.",
+      "authors": [
+        "Grzegorz Stefanski",
+        "Alberto Presta",
+        "Michal Byra"
+      ],
+      "category": [
+        "AI"
+      ],
+      "published": "2026-01-29T18:56:41Z",
+      "pdf_url": "http://arxiv.org/abs/2601.22141v1",
+      "source": "Arxiv",
+      "collectedAt": "2026-01-30T10:17:08.205Z"
+    },
+    {
+      "id": "2601.22075v1",
+      "title": "Lens-descriptor guided evolutionary algorithm for optimization of complex optical systems with glass choice",
+      "summary": "Designing high-performance optical lenses entails exploring a high-dimensional, tightly constrained space of surface curvatures, glass choices, element thicknesses, and spacings. In practice, standard optimizers (e.g., gradient-based local search and evolutionary strategies) often converge to a single local optimum, overlooking many comparably good alternatives that matter for downstream engineering decisions. We propose the Lens Descriptor-Guided Evolutionary Algorithm (LDG-EA), a two-stage framework for multimodal lens optimization. LDG-EA first partitions the design space into behavior descriptors defined by curvature-sign patterns and material indices, then learns a probabilistic model over descriptors to allocate evaluations toward promising regions. Within each descriptor, LDG-EA applies the Hill-Valley Evolutionary Algorithm with covariance-matrix self-adaptation to recover multiple distinct local minima, optionally followed by gradient-based refinement. On a 24-variable (18 continuous and 6 integer), six-element Double-Gauss topology, LDG-EA generates on average around 14500 candidate minima spanning 636 unique descriptors, an order of magnitude more than a CMA-ES baseline, while keeping wall-clock time at one hour scale. Although the best LDG-EA design is slightly worse than a fine-tuned reference lens, it remains in the same performance range. Overall, the proposed LDG-EA produces a diverse set of solutions while maintaining competitive quality within practical computational budgets and wall-clock time.",
+      "authors": [
+        "Kirill Antonov",
+        "Teus Tukker",
+        "Tiago Botari",
+        "Thomas H. W. Bäck",
+        "Anna V. Kononova",
+        "Niki van Stein"
+      ],
+      "category": [
+        "Neural"
+      ],
+      "published": "2026-01-29T18:13:24Z",
+      "pdf_url": "http://arxiv.org/abs/2601.22075v1",
+      "source": "Arxiv",
+      "collectedAt": "2026-01-30T10:17:08.530Z"
+    },
+    {
+      "id": "2601.21945v1",
+      "title": "Dependence of Equilibrium Propagation Training Success on Network Architecture",
+      "summary": "The rapid rise of artificial intelligence has led to an unsustainable growth in energy consumption. This has motivated progress in neuromorphic computing and physics-based training of learning machines as alternatives to digital neural networks. Many theoretical studies focus on simple architectures like all-to-all or densely connected layered networks. However, these may be challenging to realize experimentally, e.g. due to connectivity constraints. In this work, we investigate the performance of the widespread physics-based training method of equilibrium propagation for more realistic architectural choices, specifically, locally connected lattices. We train an XY model and explore the influence of architecture on various benchmark tasks, tracking the evolution of spatially distributed responses and couplings during training. Our results show that sparse networks with only local connections can achieve performance comparable to dense networks. Our findings provide guidelines for further scaling up architectures based on equilibrium propagation in realistic settings.",
+      "authors": [
+        "Qingshan Wang",
+        "Clara C. Wanjura",
+        "Florian Marquardt"
+      ],
+      "category": [
+        "Neural"
+      ],
+      "published": "2026-01-29T16:29:31Z",
+      "pdf_url": "http://arxiv.org/abs/2601.21945v1",
+      "source": "Arxiv",
+      "collectedAt": "2026-01-30T10:17:08.530Z"
+    },
+    {
+      "id": "2601.21885v1",
+      "title": "Adaptive Surrogate-Based Strategy for Accelerating Convergence Speed when Solving Expensive Unconstrained Multi-Objective Optimisation Problems",
+      "summary": "Multi-Objective Evolutionary Algorithms (MOEAs) have proven effective at solving Multi-Objective Optimisation Problems (MOOPs). However, their performance can be significantly hindered when applied to computationally intensive industrial problems. To address this limitation, we propose an adaptive surrogate modelling approach designed to accelerate the early-stage convergence speed of state-of-the-art MOEAs. This is important because it ensures that a solver can identify optimal or near-optimal solutions with relatively few fitness function evaluations, thereby saving both time and computational resources. Our method employs a two-loop architecture. The outer loop runs a (baseline) host MOEA which carries out true fitness evaluations. The inner loop contains an Adaptive Accelerator that leverages data-driven machine learning (ML) surrogate models to approximate fitness functions. Integrated with NSGA-II and MOEA/D, our approach was tested on 31 widely known benchmark problems and a real-world North Sea fish abundance modelling case study. The results demonstrate that by incorporating Gaussian Process Regression, one-dimensional Convolutional Neural Networks, and Random Forest Regression, our proposed approach significantly accelerates the convergence speed of MOEAs in the early phases of optimisation.",
+      "authors": [
+        "Tiwonge Msulira Banda",
+        "Alexandru-Ciprian Zăvoianu"
+      ],
+      "category": [
+        "Neural"
+      ],
+      "published": "2026-01-29T15:46:52Z",
+      "pdf_url": "http://arxiv.org/abs/2601.21885v1",
+      "source": "Arxiv",
+      "collectedAt": "2026-01-30T10:17:08.530Z"
+    },
+    {
+      "id": "2601.21877v1",
+      "title": "Evolution of Benchmark: Black-Box Optimization Benchmark Design through Large Language Model",
+      "summary": "Benchmark Design in Black-Box Optimization (BBO) is a fundamental yet open-ended topic. Early BBO benchmarks are predominantly human-crafted, introducing expert bias and constraining diversity. Automating this design process can relieve the human-in-the-loop burden while enhancing diversity and objectivity. We propose Evolution of Benchmark (EoB), an automated BBO benchmark designer empowered by the large language model (LLM) and its program evolution capability. Specifically, we formulate benchmark design as a bi-objective optimization problem towards maximizing (i) landscape diversity and (ii) algorithm-differentiation ability across a portfolio of BBO solvers. Under this paradigm, EoB iteratively prompts LLM to evolve a population of benchmark programs and employs a reflection-based scheme to co-evolve the landscape and its corresponding program. Comprehensive experiments validate our EoB is a competitive candidate in multi-dimensional usages: 1) Benchmarking BBO algorithms; 2) Training and testing learning-assisted BBO algorithms; 3) Extending proxy for expensive real-world problems.",
+      "authors": [
+        "Chen Wang",
+        "Sijie Ma",
+        "Zeyuan Ma",
+        "Yue-Jiao Gong"
+      ],
+      "category": [
+        "Neural"
+      ],
+      "published": "2026-01-29T15:45:11Z",
+      "pdf_url": "http://arxiv.org/abs/2601.21877v1",
+      "source": "Arxiv",
+      "collectedAt": "2026-01-30T10:17:08.530Z"
+    },
+    {
+      "id": "2601.21847v1",
+      "title": "READY: Reward Discovery for Meta-Black-Box Optimization",
+      "summary": "Meta-Black-Box Optimization (MetaBBO) is an emerging avenue within Optimization community, where algorithm design policy could be meta-learned by reinforcement learning to enhance optimization performance. So far, the reward functions in existing MetaBBO works are designed by human experts, introducing certain design bias and risks of reward hacking. In this paper, we use Large Language Model~(LLM) as an automated reward discovery tool for MetaBBO. Specifically, we consider both effectiveness and efficiency sides. On effectiveness side, we borrow the idea of evolution of heuristics, introducing tailored evolution paradigm in the iterative LLM-based program search process, which ensures continuous improvement. On efficiency side, we additionally introduce multi-task evolution architecture to support parallel reward discovery for diverse MetaBBO approaches. Such parallel process also benefits from knowledge sharing across tasks to accelerate convergence. Empirical results demonstrate that the reward functions discovered by our approach could be helpful for boosting existing MetaBBO works, underscoring the importance of reward design in MetaBBO. We provide READY's project at https://anonymous.4open.science/r/ICML_READY-747F.",
+      "authors": [
+        "Zechuan Huang",
+        "Zhiguang Cao",
+        "Hongshu Guo",
+        "Yue-Jiao Gong",
+        "Zeyuan Ma"
+      ],
+      "category": [
+        "Neural"
+      ],
+      "published": "2026-01-29T15:23:18Z",
+      "pdf_url": "http://arxiv.org/abs/2601.21847v1",
+      "source": "Arxiv",
+      "collectedAt": "2026-01-30T10:17:08.530Z"
+    }
+  ],
+  "lastFetch": 1769768227393
+}

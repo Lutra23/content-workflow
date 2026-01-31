@@ -23,8 +23,16 @@ import wave
 import struct
 
 import numpy as np
-from pydub import AudioSegment
-from pydub.effects import normalize
+
+# Optional dependencies - imported lazily
+try:
+    from pydub import AudioSegment
+    from pydub.effects import normalize
+    PYDUB_AVAILABLE = True
+except ImportError:
+    PYDUB_AVAILABLE = False
+    AudioSegment = None
+    normalize = None
 
 
 class Provider(Enum):
@@ -35,6 +43,10 @@ class Provider(Enum):
     GOOGLE = "google"
     COQUI = "coqui"
     AUTO = "auto"
+
+
+# Alias for backward compatibility
+VoiceProvider = Provider
 
 
 class Emotion(Enum):

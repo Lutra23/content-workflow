@@ -1,0 +1,9 @@
+{
+  "memory_access_log": {
+    "description": "追踪每个记忆的访问频率和最近性，用于优先级排序",
+    "decay_half_life_days": 30,
+    "decay_factor": 0.5,
+    "access_boost": 1.5,
+    "memories": {}
+  }
+}

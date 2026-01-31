@@ -1,0 +1,15 @@
+{
+  "name": "ai-video-editor",
+  "description": "Simple video editing operations with ffmpeg: concatenate, trim, speed change, audio overlay, resize, and subtitle burning.",
+  "metadata": {
+    "clawdbot": {
+      "emoji": "✂️",
+      "requires": {
+        "bins": ["ffmpeg"],
+        "env": [],
+        "python": ["pyyaml"]
+      },
+      "primaryEnv": null
+    }
+  }
+}
