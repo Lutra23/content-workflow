@@ -8,6 +8,7 @@ AI-powered 内容生成工作流 - 模板驱动、质量评估、多提供商支
 - **多提供商**：Groq / DeepSeek / SiliconFlow / OpenRouter / Yunwu 故障转移
 - **质量评估**：可读性、SEO、结构、互动性评分
 - **CLI 工具**：一条命令生成内容
+- **🤖 多 Agent 支持**：基于 CrewAI 框架的多 Agent 协作生成
 
 ## 📦 安装
 
@@ -95,7 +96,11 @@ content-workflow/
 ├── lib/
 │   ├── workflow.py        # 核心引擎
 │   ├── template_engine.py # 模板系统
-│   └── quality.py        # 质量评估
+│   ├── quality.py        # 质量评估
+│   └── crew/             # 🤖 CrewAI 多 Agent 框架
+│       ├── __init__.py   # ContentCrew 主类
+│       ├── agents/       # Agent 定义
+│       └── tasks/        # Task 定义
 ├── templates/
 │   └── content.yaml      # 模板定义
 ├── scripts/
@@ -106,6 +111,34 @@ content-workflow/
 ├── requirements.txt      # 依赖
 └── README.md            # 文档
 ```
+
+## 🤖 CrewAI 多 Agent 模式
+
+```python
+from lib.crew import ContentCrew
+
+# 创建 Agent 团队
+crew = ContentCrew(config={
+    "model": "llama-3.3-70b-versatile",
+    "providers": ["groq", "deepseek"]
+})
+
+# 生成文章（多 Agent 协作）
+result = crew.generate_article(
+    topic="AI Agent 开发",
+    keywords=["AI", "Agent", "自动化"],
+    audience="技术开发者"
+)
+```
+
+### Agent 团队
+
+| Agent | 角色 | 职责 |
+|-------|------|------|
+| Researcher | 研究员 | 研究主题、收集资料 |
+| Writer | 作家 | 生成内容 |
+| Editor | 编辑 | 质量检查 |
+| Publisher | 发布专家 | 发布到平台 |
 
 ## 🔧 开发
 

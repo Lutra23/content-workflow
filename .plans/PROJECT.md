@@ -32,14 +32,14 @@
 
 ## 2. Planning (任务拆解)
 
-### v0.3.0 - CLI 完善 + 文档
+### v0.3.0 - CLI 完善 + 文档 ✅ (进行中)
 
-| ID | 任务 | 文件 | 验证方式 |
-|----|------|------|----------|
-| CF-001 | 完善 README | README.md | 阅读流畅 |
-| CF-002 | 添加 CHANGELOG | CHANGELOG.md | 格式规范 |
-| CF-003 | 更新 requirements.txt | requirements.txt | pip install 成功 |
-| CF-004 | 添加 Makefile | Makefile | make help 正常 |
+| ID | 任务 | 文件 | 状态 |
+|----|------|------|------|
+| CF-001 | 完善 README | README.md | ✅ DONE |
+| CF-002 | 添加 CHANGELOG | CHANGELOG.md | ✅ DONE |
+| CF-003 | 更新 requirements.txt | requirements.txt | 🔄 NEXT |
+| CF-004 | 添加 Makefile | Makefile | ✅ DONE |
 
 ### v0.4.0 - 发布功能
 

@@ -2,5 +2,9 @@
 requests>=2.31.0
 pyyaml>=6.0
 
+# AI Providers
+crewai>=0.70.0  # Multi-agent framework
+crewai-tools>=0.10.0  # Built-in tools for agents
+
 # Optional (for enhanced features)
 python-dotenv>=1.0.0  # Environment variables
