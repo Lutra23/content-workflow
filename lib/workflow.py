@@ -549,6 +549,19 @@ class ContentFactory:
         logger.info(f"📝 Generating {content_type} for: {topic.title}")
         
         try:
+            topics = json.loads(self.topics_file.read_text()) if self.topics_file.exists() else []
+            existing_idx = next(
+                (idx for idx, item in enumerate(topics) if item.get("id") == topic.id),
+                None,
+            )
+            payload = topic.to_dict()
+            if existing_idx is None:
+                topics.append(payload)
+            else:
+                payload["used"] = topics[existing_idx].get("used", False)
+                topics[existing_idx] = payload
+            self.topics_file.write_text(json.dumps(topics, indent=2, ensure_ascii=False))
+
             if content_type == "article":
                 result = self.ai.generate_article(topic)
             else:
