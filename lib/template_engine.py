@@ -94,6 +94,18 @@ class TemplateEngine:
             prompt = prompt.replace(placeholder, str(value))
         
         return prompt
+
+    @staticmethod
+    def _cjk_ratio(text: str) -> float:
+        if not text:
+            return 0.0
+        cjk = sum(1 for ch in text if "\u4e00" <= ch <= "\u9fff")
+        return cjk / max(1, len(text))
+
+    def _count_words(self, content: str) -> int:
+        if self._cjk_ratio(content) >= 0.3:
+            return sum(1 for ch in content if "\u4e00" <= ch <= "\u9fff")
+        return len(content.split())
     
     def get_template_config(self, template_name: str) -> Dict:
         """Get template configuration for AI client"""
@@ -116,8 +128,8 @@ class TemplateEngine:
         checks = template.quality_checks
         issues = []
         
-        # Word count check
-        word_count = len(content.split())
+        # Word count check (CJK-aware)
+        word_count = self._count_words(content)
         if "min_word_count" in checks and word_count < checks["min_word_count"]:
             issues.append(f"Word count ({word_count}) below minimum ({checks['min_word_count']})")
         if "max_word_count" in checks and word_count > checks["max_word_count"]:
