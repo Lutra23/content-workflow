@@ -1,1 +1,10 @@
-*.pyc\n__pycache__\n.env\nlogs/*.log\ndata/*.json\n*.swp
+*.pyc
+__pycache__/
+.env
+logs/*.log
+data/*.json
+*.swp
+
+# Codex Subagents temporary files
+.codex-temp/
+.worktrees/

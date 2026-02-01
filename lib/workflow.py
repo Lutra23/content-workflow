@@ -482,11 +482,16 @@ class ContentFactory:
     def discover_topics(self, limit: int = 10) -> List[Topic]:
         """Discover trending topics"""
         topics = []
-        
+        limit = max(0, int(limit))
+        if limit == 0:
+            return topics
+
         # GitHub trending
         logger.info("📊 Fetching GitHub trending...")
         repos = self.github.get_trending("python", "weekly")
         for r in repos[:5]:
+            if len(topics) >= limit:
+                break
             topic = Topic(
                 id=self._gen_id("gh"),
                 title=r["title"],
@@ -498,9 +503,9 @@ class ContentFactory:
                 discovered_at=datetime.now().isoformat(),
             )
             topics.append(topic)
-        
+
         # Tavily search
-        if self.tavily:
+        if self.tavily and len(topics) < limit:
             logger.info("🔍 Searching Tavily...")
             queries = [
                 "AI automation tools 2026",
@@ -508,8 +513,12 @@ class ContentFactory:
                 "productivity system automation",
             ]
             for q in queries[:2]:
+                if len(topics) >= limit:
+                    break
                 results = self.tavily.search(q, max_results=3)
                 for i, r in enumerate(results):
+                    if len(topics) >= limit:
+                        break
                     topic = Topic(
                         id=self._gen_id("tv"),
                         title=r.get("title", q),
@@ -549,6 +558,19 @@ class ContentFactory:
         logger.info(f"📝 Generating {content_type} for: {topic.title}")
         
         try:
+            topics = json.loads(self.topics_file.read_text()) if self.topics_file.exists() else []
+            existing_idx = next(
+                (idx for idx, item in enumerate(topics) if item.get("id") == topic.id),
+                None,
+            )
+            payload = topic.to_dict()
+            if existing_idx is None:
+                topics.append(payload)
+            else:
+                payload["used"] = topics[existing_idx].get("used", False)
+                topics[existing_idx] = payload
+            self.topics_file.write_text(json.dumps(topics, indent=2, ensure_ascii=False))
+
             if content_type == "article":
                 result = self.ai.generate_article(topic)
             else:

@@ -55,6 +55,17 @@ templates:
 
       ---
 
+    quality_checks:
+      min_word_count: 500
+      max_word_count: 5000
+      required_sections:
+        - "开场"
+        - "总结"
+      forbidden:
+        - "首先，其次，最后"
+        - 泛泛而谈
+        - 过于冗长
+
   article_viral:
     name: "病毒式传播文章"
     description: "适合社交媒体传播的高分享内容"
@@ -85,6 +96,14 @@ templates:
       - 500-800 字
 
       直接输出 Markdown 格式。
+
+    quality_checks:
+      min_word_count: 300
+      max_word_count: 1500
+      forbidden:
+        - "首先，其次，最后"
+        - 泛泛而谈
+        - 过于冗长
 
   # 视频脚本模板
   video_script_3min:
@@ -125,6 +144,15 @@ templates:
 
       直接输出脚本，不要有其他说明。
 
+    quality_checks:
+      min_word_count: 120
+      max_word_count: 2000
+      required_sections:
+        - "开场白"
+        - "结尾"
+      forbidden:
+        - "首先，其次，最后"
+
   # 社交媒体模板
   thread_x:
     name: "X/Twitter 线程"
@@ -155,6 +183,11 @@ templates:
 
       直接输出推文内容。
 
+    quality_checks:
+      max_word_count: 5000
+      forbidden:
+        - "首先，其次，最后"
+
 # 变量定义
 variables:
   topic: "文章主题"
@@ -167,16 +200,3 @@ variables:
   point3: "第三个要点"
   n: "推文数量"
   key_points: "核心要点"
-
-# 质量检查规则
-quality_checks:
-  min_word_count: 500
-  max_word_count: 5000
-  required_sections:
-    - hook
-    - body
-    - conclusion
-  forbidden:
-    - "首先，其次，最后"
-    - 泛泛而谈
-    - 过于冗长
