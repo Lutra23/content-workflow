@@ -355,7 +355,7 @@ class AIClient:
         response.raise_for_status()
         return response.json()["choices"][0]["message"]["content"]
     
-    def generate_article(self, topic: Topic, style: str = "professional", research: str = "") -> Dict:
+    def generate_article(self, topic: Topic, style: str = "professional", research: str = "", outline: str = "") -> Dict:
         """Generate full article"""
         prompt = f"""
 你是中文内容写作专家，写公众号很多年，文风像真人：有经历、有取舍、有细节，不端着。你会把技术/工具类信息写成读者看完立刻能用的文章。
@@ -379,6 +379,9 @@ class AIClient:
 
 【可用资料（必须使用，禁止凭空编造事实/数据）】
 {research}
+
+【大纲（必须严格按这个写，结构可以微调但不要跑题）】
+{outline}
 
 【引用规则（非常重要）】
 - 引用只能用 (S1)/(S2)… 这种格式。
@@ -418,6 +421,34 @@ class AIClient:
             "tags": topic.keywords[:5],
         }
     
+    def generate_outline(self, topic: Topic, research: str = "") -> str:
+        """Generate an outline first to improve depth and structure."""
+        prompt = f"""
+你是资深公众号作者。
+
+目标：先输出文章大纲（不是正文），让结构更像真人思考。
+
+【硬性要求】
+- 输出简体中文
+- 只输出大纲，不要写正文段落
+- 大纲必须覆盖：
+  - 开头场景（第一人称）
+  - 至少 5 个二级标题（##）
+  - 一个固定章节：## 直接拿去用（复制区）（写清楚将给出哪些模板/清单）
+  - 一个固定章节：## 我踩过的坑（列 3 条要点）
+  - 结尾：7 天行动清单（列 7 条要点）
+- 每个 ## 小节后面用括号标注至少一个来源编号 (Sx)
+
+【选题】
+{topic.title}
+
+【可用资料】
+{research}
+
+请用 Markdown 输出大纲（只包含标题和要点列表）。
+"""
+        return self.generate(prompt, max_tokens=900)
+
     def edit_article(self, draft: str, research: str = "") -> str:
         """Second-pass edit: remove template feel, enforce practicality and citations."""
         prompt = f"""
@@ -444,7 +475,10 @@ class AIClient:
 【原文】
 {draft}
 
-请直接输出修改后的 Markdown 正文。
+输出要求：
+- 只输出 Markdown 正文
+- 不要输出任何前言/说明
+- 不要用 ```markdown 代码块包裹正文
 """
         return self.generate(prompt, max_tokens=3200)
 
@@ -700,6 +734,29 @@ class ContentFactory:
         lines.append("- 只要出现硬断言，句末必须标注来源：(Sx)。")
         return "\n".join(lines), urls
 
+    def _sanitize_markdown(self, text: str) -> str:
+        """Strip LLM wrappers like prefaces and fenced ```markdown blocks."""
+        if not text:
+            return text
+
+        t = text.strip()
+
+        # If the model wrapped the whole article in a markdown fence, extract it.
+        if "```markdown" in t:
+            start = t.find("```markdown")
+            if start != -1:
+                start = start + len("```markdown")
+                end = t.find("```", start)
+                if end != -1:
+                    t = t[start:end].strip()
+
+        # Drop any preface before the first markdown title.
+        hash_pos = t.find("# ")
+        if hash_pos > 0:
+            t = t[hash_pos:].lstrip()
+
+        return t
+
     def generate_content(self, topic: Topic, content_type: str = "article") -> Optional[Content]:
         """Generate content from topic"""
         logger.info(f"📝 Generating {content_type} for: {topic.title}")
@@ -707,13 +764,16 @@ class ContentFactory:
         try:
             if content_type == "article":
                 research, urls = self.build_research_packet(topic)
-                result = self.ai.generate_article(topic, research=research)
+                outline = self.ai.generate_outline(topic, research=research)
+                result = self.ai.generate_article(topic, research=research, outline=outline)
+
+                body = self._sanitize_markdown(result.get("body", ""))
 
                 # Second-pass edit if citations/copy-zone are missing.
-                body = result.get("body", "")
                 if ("## 直接拿去用" not in body) or ("(S1)" not in body and "(S2)" not in body):
-                    body2 = self.ai.edit_article(body, research=research)
-                    result["body"] = body2
+                    body = self._sanitize_markdown(self.ai.edit_article(body, research=research))
+
+                result["body"] = body
             else:
                 result = self.ai.generate_video_script(topic)
             
