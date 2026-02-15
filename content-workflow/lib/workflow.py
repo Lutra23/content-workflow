@@ -420,11 +420,6 @@ class AIClient:
 
 现在开始写：
 """
-
-[结尾引导]
-
-直接输出脚本内容。
-"""
         content = self.generate(prompt, max_tokens=2000)
         
         return {
