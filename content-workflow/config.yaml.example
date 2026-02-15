@@ -15,3 +15,6 @@ providers:
   - groq
   - openrouter
   - yunwu
+
+# Optional: override provider-specific models
+silicon_model: deepseek-ai/DeepSeek-V3

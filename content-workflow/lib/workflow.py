@@ -284,7 +284,14 @@ class AIClient:
         if not api_key:
             raise RuntimeError("Missing SILICON_API_KEY (or SILICONFLOW_API_KEY) environment variable")
         
-        model = self.config.get("model", "deepseek-chat")
+        # SiliconFlow model ids differ from DeepSeek/OpenAI-style names.
+        # Use a sane default that exists in /v1/models.
+        model = (
+            self.config.get("silicon_model")
+            or self.config.get("siliconflow_model")
+            or self.config.get("model")
+            or "deepseek-ai/DeepSeek-V3"
+        )
         
         response = requests.post(
             "https://api.siliconflow.cn/v1/chat/completions",
