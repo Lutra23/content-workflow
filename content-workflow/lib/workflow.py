@@ -278,9 +278,11 @@ class AIClient:
     
     def _generate_silicon(self, prompt: str, max_tokens: int) -> str:
         """SiliconFlow - 便宜"""
-        api_key = os.environ.get("SILICON_API_KEY", "").strip()
+        # Support both names; many environments use SILICONFLOW_API_KEY.
+        api_key = (os.environ.get("SILICON_API_KEY", "").strip()
+                  or os.environ.get("SILICONFLOW_API_KEY", "").strip())
         if not api_key:
-            raise RuntimeError("Missing SILICON_API_KEY environment variable")
+            raise RuntimeError("Missing SILICON_API_KEY (or SILICONFLOW_API_KEY) environment variable")
         
         model = self.config.get("model", "deepseek-chat")
         
