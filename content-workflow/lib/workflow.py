@@ -112,8 +112,9 @@ class TavilyClient:
         self.api_key = api_key
         self.base_url = "https://api.tavily.com"
     
-    def search(self, query: str, topic: str = "general", 
-               days: int = 7, max_results: int = 10) -> List[Dict]:
+    def search(self, query: str, topic: str = "general",
+               days: int = 7, max_results: int = 10,
+               include_raw_content: bool = False) -> List[Dict]:
         """Search for topics"""
         try:
             response = requests.post(
@@ -125,7 +126,7 @@ class TavilyClient:
                     "days": days,
                     "max_results": max_results,
                     "include_answer": True,
-                    "include_raw_content": False,
+                    "include_raw_content": include_raw_content,
                 },
                 timeout=30
             )
@@ -354,16 +355,19 @@ class AIClient:
         response.raise_for_status()
         return response.json()["choices"][0]["message"]["content"]
     
-    def generate_article(self, topic: Topic, style: str = "professional") -> Dict:
+    def generate_article(self, topic: Topic, style: str = "professional", research: str = "") -> Dict:
         """Generate full article"""
         prompt = f"""
-你是中文内容写作专家，擅长把技术/工具类信息写成能发布的中文长文。
+你是中文内容写作专家，擅长把技术/工具类信息写成能发布的公众号长文。
 
 【硬性要求】
 - 输出语言：简体中文
 - 直接输出 Markdown 正文（不要包 ```markdown 代码块）
 - 不要出现“作为AI/我无法/免责声明/参考资料”等废话
 - 内容必须具体、可执行，避免空泛
+- **默认禁止出现任何具体数字（百分比/倍数/金额/时间/排名等）**。
+  - 只有当【可用资料】的摘要里明确出现了该数字，你才可以使用，并在句末用括号标注对应来源链接（URL）。
+  - 如果资料里没写，就把表达改成不含数字的经验判断（例如“明显”“多数”“少数”“大幅”）。
 
 【文章信息】
 主题：{topic.title}
@@ -371,10 +375,14 @@ class AIClient:
 关键词：{", ".join(topic.keywords)}
 风格：{style}
 
+【可用资料（必须使用，禁止凭空编造事实/数据）】
+{research}
+
 【结构要求】
 1) 标题：1 行（# 开头）
 2) 开头：3~6 句强 hook（痛点 + 结果 + 反常识）
-3) 正文：至少 5 个二级标题（##），每节给出要点/步骤/例子
+3) 正文：至少 5 个二级标题（##），每节给出要点/步骤/例子；每节至少引用 1 个来源链接（用括号放 URL）。
+   - 引用的目的是“告诉读者你是从哪儿来的”，不是给胡编数据贴个链接。
 4) 结尾：给一个 7 天行动清单（可打勾的 checklist）——必须完整 7 条，且每条都要具体可执行，禁止留空
 5) 总字数：1200~1800 字
 
@@ -567,14 +575,55 @@ class ContentFactory:
             if t["id"] == topic_id:
                 t["used"] = True
         self.topics_file.write_text(json.dumps(topics, indent=2, ensure_ascii=False))
-    
+
+    def build_research_packet(self, topic: Topic, max_sources: int = 5) -> str:
+        """Build a compact research packet (bullets + URLs) for grounded writing."""
+        lines: List[str] = []
+
+        # Always include the original topic URL (if any)
+        if topic.url:
+            lines.append(f"- 原始链接：{topic.url}")
+
+        if not getattr(self, "tavily", None):
+            lines.append("- （Tavily 未配置：请仅基于常识写作，避免任何具体数字/断言）")
+            return "\n".join(lines)
+
+        # Use Tavily search to gather supporting sources
+        results = self.tavily.search(
+            query=topic.title,
+            topic="general",
+            days=30,
+            max_results=max_sources,
+            include_raw_content=False,
+        )
+
+        for r in results[:max_sources]:
+            title = (r.get("title") or "").strip()
+            url = (r.get("url") or "").strip()
+            snippet = (r.get("content") or r.get("answer") or "").strip()
+            snippet = " ".join(snippet.split())
+            if snippet:
+                snippet = snippet[:280]
+            if url:
+                if title:
+                    lines.append(f"- {title}（{url}）")
+                else:
+                    lines.append(f"- {url}")
+            if snippet:
+                lines.append(f"  - 摘要：{snippet}")
+
+        # Hard constraint reminder
+        lines.append("- 写作规则：任何具体数字/统计/法规/功能断言都必须引用以上链接，否则删掉数字。")
+        return "\n".join(lines)
+
     def generate_content(self, topic: Topic, content_type: str = "article") -> Optional[Content]:
         """Generate content from topic"""
         logger.info(f"📝 Generating {content_type} for: {topic.title}")
         
         try:
             if content_type == "article":
-                result = self.ai.generate_article(topic)
+                research = self.build_research_packet(topic)
+                result = self.ai.generate_article(topic, research=research)
             else:
                 result = self.ai.generate_video_script(topic)
             
