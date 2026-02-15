@@ -230,14 +230,15 @@ class AIClient:
             except Exception as e:
                 errors[provider] = str(e)[:30]
         
+        # Hard-fail so callers don't accidentally persist a fake/placeholder draft.
         logger.error(f"All providers failed: {errors}")
-        return f"[生成失败]\n尝试了: {list(errors.keys())}\n请检查 API keys"
+        raise RuntimeError(f"All AI providers failed: {errors}")
     
     def _generate_groq(self, prompt: str, max_tokens: int) -> str:
         """Groq - 最快最便宜"""
-        api_key = os.environ.get("GROQ_API_KEY", "")
+        api_key = os.environ.get("GROQ_API_KEY", "").strip()
         if not api_key:
-            api_key = "sk_hv06qmEU9fc3gnFTEm95WGdyb3FYWcXmEOeecxwPFD3TBkIYfs8q"
+            raise RuntimeError("Missing GROQ_API_KEY environment variable")
         
         model = self.config.get("model", "llama-3.3-70b-versatile")
         
@@ -257,9 +258,9 @@ class AIClient:
     
     def _generate_deepseek(self, prompt: str, max_tokens: int) -> str:
         """DeepSeek - 便宜"""
-        api_key = os.environ.get("DEEPSEEK_API_KEY", "")
+        api_key = os.environ.get("DEEPSEEK_API_KEY", "").strip()
         if not api_key:
-            api_key = "sk-b83061fb73e7423482084250637aca48"
+            raise RuntimeError("Missing DEEPSEEK_API_KEY environment variable")
         
         response = requests.post(
             "https://api.deepseek.com/chat/completions",
@@ -277,9 +278,9 @@ class AIClient:
     
     def _generate_silicon(self, prompt: str, max_tokens: int) -> str:
         """SiliconFlow - 便宜"""
-        api_key = os.environ.get("SILICON_API_KEY", "")
+        api_key = os.environ.get("SILICON_API_KEY", "").strip()
         if not api_key:
-            api_key = "sk-avivaqragowuuxqxfcdvaxqbjxpebcqnbjmzkuoxroviigna"
+            raise RuntimeError("Missing SILICON_API_KEY environment variable")
         
         model = self.config.get("model", "deepseek-chat")
         
@@ -299,9 +300,9 @@ class AIClient:
     
     def _generate_openrouter(self, prompt: str, max_tokens: int) -> str:
         """OpenRouter - 多模型"""
-        api_key = os.environ.get("OPENROUTER_API_KEY", "")
+        api_key = os.environ.get("OPENROUTER_API_KEY", "").strip()
         if not api_key:
-            api_key = "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"
+            raise RuntimeError("Missing OPENROUTER_API_KEY environment variable")
         
         model = self.config.get("model", "anthropic/claude-sonnet-4-20250514")
         
@@ -324,9 +325,9 @@ class AIClient:
     
     def _generate_yunwu(self, prompt: str, max_tokens: int) -> str:
         """Yunwu - Claude 国内"""
-        api_key = os.environ.get("YUNWU_API_KEY", "")
+        api_key = os.environ.get("YUNWU_API_KEY", "").strip()
         if not api_key:
-            api_key = "sk-1bLUHShpKC3NiIVRuf06MrMlE2HTH7ER3Hhv2GiSz6eu8zVT"
+            raise RuntimeError("Missing YUNWU_API_KEY environment variable")
         
         model = self.config.get("model", "claude-3-5-sonnet")
         

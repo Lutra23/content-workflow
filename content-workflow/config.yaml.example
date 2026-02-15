@@ -1,0 +1,17 @@
+# Example configuration for Content Factory
+# Copy to config.yaml and fill as needed.
+
+data_dir: ./data
+
+# Optional; if empty, Tavily discovery is skipped.
+# You can also set TAVILY_API_KEY env var instead.
+tavily_api_key: ""
+
+# Choose primary provider; actual generation will fail over across `providers`.
+ai_provider: silicon
+providers:
+  - silicon
+  - deepseek
+  - groq
+  - openrouter
+  - yunwu

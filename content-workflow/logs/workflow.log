@@ -24,3 +24,21 @@
 2026-01-31 02:23:39,623 | INFO     | ✅ GitHub client ready
 2026-01-31 02:23:39,623 | INFO     | ✅ AI client ready (groq)
 2026-01-31 02:23:39,623 | INFO     | 🚀 ContentFactory initialized
+2026-02-15 14:43:00,079 | INFO     | ✅ Tavily client ready
+2026-02-15 14:43:00,079 | INFO     | ✅ GitHub client ready
+2026-02-15 14:43:00,079 | INFO     | ✅ AI client ready (groq)
+2026-02-15 14:43:00,079 | INFO     | 🚀 ContentFactory initialized
+2026-02-15 14:43:00,242 | INFO     | ✅ Tavily client ready
+2026-02-15 14:43:00,242 | INFO     | ✅ GitHub client ready
+2026-02-15 14:43:00,242 | INFO     | ✅ AI client ready (groq)
+2026-02-15 14:43:00,242 | INFO     | 🚀 ContentFactory initialized
+2026-02-15 14:43:00,242 | INFO     | 📊 Fetching GitHub trending...
+2026-02-15 14:43:01,562 | INFO     | 🔍 Searching Tavily...
+2026-02-15 14:43:05,011 | INFO     | ✅ Discovered 11 topics
+2026-02-15 14:43:23,079 | INFO     | ✅ Tavily client ready
+2026-02-15 14:43:23,079 | INFO     | ✅ GitHub client ready
+2026-02-15 14:43:23,079 | INFO     | ✅ AI client ready (groq)
+2026-02-15 14:43:23,079 | INFO     | 🚀 ContentFactory initialized
+2026-02-15 14:43:23,080 | INFO     | 📝 Generating article for: 测试key缺失
+2026-02-15 14:43:23,080 | ERROR    | All providers failed: {'groq': 'Missing GROQ_API_KEY environme', 'deepseek': 'Missing DEEPSEEK_API_KEY envir', 'silicon': 'Missing SILICON_API_KEY enviro', 'openrouter': 'Missing OPENROUTER_API_KEY env', 'yunwu': 'Missing YUNWU_API_KEY environm'}
+2026-02-15 14:43:23,080 | ERROR    | Generation error: All AI providers failed: {'groq': 'Missing GROQ_API_KEY environme', 'deepseek': 'Missing DEEPSEEK_API_KEY envir', 'silicon': 'Missing SILICON_API_KEY enviro', 'openrouter': 'Missing OPENROUTER_API_KEY env', 'yunwu': 'Missing YUNWU_API_KEY environm'}

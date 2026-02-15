@@ -6,8 +6,9 @@ Content Factory CLI - Production content workflow
 import sys
 from pathlib import Path
 
-# Add lib to path
-sys.path.insert(0, str(Path(__file__).parent.parent / "lib"))
+# Ensure project root is on sys.path so `lib` is importable as a package.
+# (We ship lib/__init__.py to make this work.)
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from lib.workflow import ContentFactory, Platform
 
