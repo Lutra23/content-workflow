@@ -357,22 +357,28 @@ class AIClient:
     def generate_article(self, topic: Topic, style: str = "professional") -> Dict:
         """Generate full article"""
         prompt = f"""
-请为一篇技术博客文章生成内容。
+你是中文内容写作专家，擅长把技术/工具类信息写成能发布的中文长文。
 
-主题: {topic.title}
-描述: {topic.description}
-关键词: {", ".join(topic.keywords)}
-风格: {style}
+【硬性要求】
+- 输出语言：简体中文
+- 直接输出 Markdown 正文（不要包 ```markdown 代码块）
+- 不要出现“作为AI/我无法/免责声明/参考资料”等废话
+- 内容必须具体、可执行，避免空泛
 
-要求:
-1. 标题吸引人
-2. 开头有hook
-3. 结构清晰 (h2小标题)
-4. 包含实用建议
-5. 字数约1500字
-6. 直接输出Markdown格式
+【文章信息】
+主题：{topic.title}
+补充描述：{topic.description}
+关键词：{", ".join(topic.keywords)}
+风格：{style}
 
-直接输出文章内容，不要有其他说明。
+【结构要求】
+1) 标题：1 行（# 开头）
+2) 开头：3~6 句强 hook（痛点 + 结果 + 反常识）
+3) 正文：至少 5 个二级标题（##），每节给出要点/步骤/例子
+4) 结尾：给一个 7 天行动清单（可打勾的 checklist）
+5) 总字数：1200~1800 字
+
+现在开始写。
 """
         content = self.generate(prompt, max_tokens=3000)
         
@@ -392,21 +398,29 @@ class AIClient:
     def generate_video_script(self, topic: Topic) -> Dict:
         """Generate video script"""
         prompt = f"""
-请为一个B站技术视频生成脚本。
+你是中文视频编导，给 B 站做技术类口播脚本。
 
-主题: {topic.title}
-描述: {topic.description}
+【硬性要求】
+- 输出语言：简体中文
+- 不要出现“作为AI/我无法/免责声明”
+- 口语化、节奏快、能直接念
 
-要求:
-1. 开头有开场白 (5-10秒)
-2. 3-5个要点
-3. 结尾有互动引导
-4. 总时长约3-5分钟
-5. 口语化表达，适合念出来
+【视频信息】
+主题：{topic.title}
+补充描述：{topic.description}
 
-格式:
-[开场白]
-[正文]
+【结构】
+[开场白 10秒]
+[为什么值得看 20秒]
+[正文要点 x4]（每点给例子/类比）
+[总结]
+[互动引导]
+
+总时长：3-5 分钟。
+
+现在开始写：
+"""
+
 [结尾引导]
 
 直接输出脚本内容。
@@ -450,8 +464,13 @@ class ContentFactory:
         default = {
             "data_dir": "./data",
             "tavily_api_key": os.environ.get("TAVILY_API_KEY", ""),
-            "ai_provider": "groq",
-            "providers": ["groq", "deepseek", "silicon", "openrouter", "yunwu"],
+            # Default to SiliconFlow since this workspace typically has SILICONFLOW_API_KEY configured.
+            "ai_provider": "silicon",
+            "providers": ["silicon", "deepseek", "groq", "openrouter", "yunwu"],
+            # Language control for prompts.
+            "output_language": "zh-CN",
+            # SiliconFlow model override (must exist in https://api.siliconflow.cn/v1/models)
+            "silicon_model": "Pro/moonshotai/Kimi-K2.5",
         }
         
         if Path(config_file).exists():
