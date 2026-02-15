@@ -380,6 +380,11 @@ class AIClient:
 【可用资料（必须使用，禁止凭空编造事实/数据）】
 {research}
 
+【引用规则（非常重要）】
+- 引用只能用 (S1)/(S2)… 这种格式。
+- 每个二级标题（##）下至少出现 1 次 (Sx)。
+- 如果你写不出来源，就删掉那句硬断言，改成经验判断。
+
 【结构要求】
 1) 标题：1 行（# 开头），像公众号标题：具体、带利益点，但别油腻
 2) 开头：用一个真实场景开头（第一人称），让读者“看见”问题；最后抛出本文能解决什么
@@ -413,6 +418,36 @@ class AIClient:
             "tags": topic.keywords[:5],
         }
     
+    def edit_article(self, draft: str, research: str = "") -> str:
+        """Second-pass edit: remove template feel, enforce practicality and citations."""
+        prompt = f"""
+你是资深公众号编辑 + 严格审稿人。
+
+目标：把下面这篇文章改到更像真人、更有深度、更可操作，并且严格遵守引用规则。
+
+【引用规则】
+- 只允许用 (S1)/(S2)… 格式。
+- 每个 ## 小节至少 1 个 (Sx)。
+- 发现没有来源支撑的“硬断言/数字/功能描述”，就删掉或降级成经验判断。
+
+【内容要求】
+- 每个 ## 小节都要有一个“可复制做法”（步骤/清单/提示词）。
+- 必须包含：## 直接拿去用（复制区）
+  - 至少 3 个提示词模板（代码块）
+  - 1 个 step-by-step 流程
+- 必须包含：## 我踩过的坑（3 条）
+- 结尾必须是 7 天清单（7 条，不许少）
+
+【可用资料】
+{research}
+
+【原文】
+{draft}
+
+请直接输出修改后的 Markdown 正文。
+"""
+        return self.generate(prompt, max_tokens=3200)
+
     def generate_video_script(self, topic: Topic) -> Dict:
         """Generate video script"""
         prompt = f"""
@@ -608,19 +643,23 @@ class ContentFactory:
                 t["used"] = True
         self.topics_file.write_text(json.dumps(topics, indent=2, ensure_ascii=False))
 
-    def build_research_packet(self, topic: Topic, max_sources: int = 5) -> str:
-        """Build a compact research packet (bullets + URLs) for grounded writing."""
-        lines: List[str] = []
+    def build_research_packet(self, topic: Topic, max_sources: int = 6) -> Tuple[str, List[str]]:
+        """Build a compact research packet (numbered sources) for grounded writing.
 
-        # Always include the original topic URL (if any)
+        Returns: (packet_text, urls)
+        """
+        lines: List[str] = []
+        urls: List[str] = []
+
         if topic.url:
-            lines.append(f"- 原始链接：{topic.url}")
+            urls.append(topic.url)
 
         if not getattr(self, "tavily", None):
-            lines.append("- （Tavily 未配置：请仅基于常识写作，避免任何具体数字/断言）")
-            return "\n".join(lines)
+            lines.append("【来源】（无：Tavily 未配置）")
+            lines.append("- S1: (no-source)")
+            lines.append("【规则】只能写经验判断；禁止任何具体数字/功能断言。")
+            return "\n".join(lines), []
 
-        # Use Tavily search to gather supporting sources
         results = self.tavily.search(
             query=topic.title,
             topic="general",
@@ -629,24 +668,37 @@ class ContentFactory:
             include_raw_content=False,
         )
 
+        # Prefer Tavily results; then fall back to topic.url if present.
+        for r in results[:max_sources]:
+            url = (r.get("url") or "").strip()
+            if url and url not in urls:
+                urls.append(url)
+
+        if topic.url and topic.url not in urls:
+            urls.append(topic.url)
+
+        lines.append("【来源（必须引用，用 (S1)/(S2) 这种格式）】")
+        for i, url in enumerate(urls, 1):
+            lines.append(f"- S{i}: {url}")
+
+        lines.append("\n【要点摘要（写作可用，但硬断言仍要引用来源）】")
         for r in results[:max_sources]:
             title = (r.get("title") or "").strip()
             url = (r.get("url") or "").strip()
             snippet = (r.get("content") or r.get("answer") or "").strip()
             snippet = " ".join(snippet.split())
             if snippet:
-                snippet = snippet[:280]
+                snippet = snippet[:320]
             if url:
-                if title:
-                    lines.append(f"- {title}（{url}）")
-                else:
-                    lines.append(f"- {url}")
-            if snippet:
-                lines.append(f"  - 摘要：{snippet}")
+                head = title if title else url
+                lines.append(f"- {head}")
+                if snippet:
+                    lines.append(f"  - {snippet}")
 
-        # Hard constraint reminder
-        lines.append("- 写作规则：任何具体数字/统计/法规/功能断言都必须引用以上链接，否则删掉数字。")
-        return "\n".join(lines)
+        lines.append("\n【硬规则】")
+        lines.append("- 默认禁止编造具体数字/统计/政策法规/产品功能断言。")
+        lines.append("- 只要出现硬断言，句末必须标注来源：(Sx)。")
+        return "\n".join(lines), urls
 
     def generate_content(self, topic: Topic, content_type: str = "article") -> Optional[Content]:
         """Generate content from topic"""
@@ -654,8 +706,14 @@ class ContentFactory:
         
         try:
             if content_type == "article":
-                research = self.build_research_packet(topic)
+                research, urls = self.build_research_packet(topic)
                 result = self.ai.generate_article(topic, research=research)
+
+                # Second-pass edit if citations/copy-zone are missing.
+                body = result.get("body", "")
+                if ("## 直接拿去用" not in body) or ("(S1)" not in body and "(S2)" not in body):
+                    body2 = self.ai.edit_article(body, research=research)
+                    result["body"] = body2
             else:
                 result = self.ai.generate_video_script(topic)
             
