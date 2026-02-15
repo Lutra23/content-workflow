@@ -388,9 +388,13 @@ class AIClient:
    - 一个具体例子或小故事（可以是你/身边人/项目）
    - 一个可复制的做法（步骤/清单/模板提示词）
    - 至少 1 个来源链接（用括号放 URL）
-4) 增加一个专门小节：## 我踩过的坑（写 3 条，越具体越好）
-5) 结尾：给一个 7 天行动清单（可打勾的 checklist）——必须完整 7 条，且每条都要具体可执行，禁止留空
-6) 总字数：1200~1800 字
+4) 必须包含一个“可直接复制使用”的专区：
+   - ## 直接拿去用（复制区）
+   - 至少给出 3 个提示词模板（用代码块包起来）
+   - 给出 1 个流程清单（step-by-step）
+5) 增加一个专门小节：## 我踩过的坑（写 3 条，越具体越好）
+6) 结尾：给一个 7 天行动清单（可打勾的 checklist）——必须完整 7 条，且每条都要具体可执行，禁止留空
+7) 总字数：1200~1800 字
 
 现在开始写。
 """
@@ -573,6 +577,28 @@ class ContentFactory:
         all_topics = json.loads(self.topics_file.read_text()) if self.topics_file.exists() else []
         unused = [Topic(**t) for t in all_topics if not t.get("used", False)]
         return unused[:limit]
+
+    def score_topic(self, t: Topic) -> float:
+        """Heuristic scoring for practicality and writeability."""
+        s = 0.0
+        if t.url:
+            s += 2.0
+        if t.source == "tavily":
+            s += 2.0
+        if t.description and len(t.description) >= 80:
+            s += 1.0
+        # Prefer topics that look like actionable workflows
+        kw = (t.title + " " + (t.description or "")).lower()
+        for word in ["workflow", "prompt", "template", "automation", "playbook", "checklist", "教程", "模版", "提示词", "工作流", "自动化"]:
+            if word in kw:
+                s += 0.5
+        return s
+
+    def choose_best_topic(self, candidates: List[Topic]) -> Optional[Topic]:
+        if not candidates:
+            return None
+        ranked = sorted(candidates, key=self.score_topic, reverse=True)
+        return ranked[0]
     
     def mark_topic_used(self, topic_id: str):
         """Mark topic as used"""
@@ -687,11 +713,13 @@ class ContentFactory:
         topics = self.discover_topics()
         
         # 2. Get unused topics
-        unused = self.get_unused_topics(3)
-        
-        # 3. Generate content for top topic
-        if unused:
-            top_topic = unused[0]
+        unused = self.get_unused_topics(10)
+
+        # 3. Pick the most writeable/practical topic
+        top_topic = self.choose_best_topic(unused)
+
+        # 4. Generate content for selected topic
+        if top_topic:
             content = self.generate_content(top_topic, "article")
             
             if content:
